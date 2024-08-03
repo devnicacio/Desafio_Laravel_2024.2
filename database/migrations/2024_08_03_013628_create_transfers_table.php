@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('transfers', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('senderAccount');
             $table->foreign('senderAccount')->references('id')->on('accounts');
             $table->string('recipientAccount');
             $table->string('recipientAgency');

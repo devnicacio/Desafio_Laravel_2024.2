@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('pendencies', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->unsignedBigInteger('senderAccount');
             $table->foreign('senderAccount')->references('id')->on('accounts');
             $table->string('recipientAccount')->nullable();
             $table->string('recipientAgency')->nullable();
