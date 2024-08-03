@@ -22,9 +22,9 @@ return new class extends Migration
             $table->foreign('admin')->references('id')->on('admins');
             $table->string('address');
             $table->string('photo');
-            $table->string('phoneNumber');
+            $table->string('phoneNumber')->unique();
             $table->date('birthdate');
-            $table->string('cpf');
+            $table->string('cpf')->unique();
         });
     }
 

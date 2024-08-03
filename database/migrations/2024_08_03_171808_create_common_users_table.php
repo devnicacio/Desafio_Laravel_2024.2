@@ -11,18 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('admins', function (Blueprint $table) {
+        Schema::create('commonUsers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->unsignedBigInteger('account');
+            $table->foreign('account')->references('id')->on('accounts');
+            $table->unsignedBigInteger('manager');
+            $table->foreign('manager')->references('id')->on('managers');
             $table->string('address');
-            $table->string('phoneNumber');
-            $table->date('birthdate');
-            $table->string('cpf');
             $table->string('photo');
-            $table->unsignedBigInteger('admin');
-            $table->foreign('admin')->references('id')->on('admins');
+            $table->string('phoneNumber')->unique();
+            $table->date('birthdate');
+            $table->string('cpf')->unique();
         });
     }
 
@@ -31,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admins');
+        Schema::dropIfExists('commonUsers');
     }
 };
