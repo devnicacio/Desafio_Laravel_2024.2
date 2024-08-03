@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transfers', function (Blueprint $table) {
+        Schema::create('pendencies', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
             $table->foreign('sender')->references('id')->on('accounts');
-            $table->string('recipient');
-            $table->string('agency');
+            $table->string('recipient')->nullable();
+            $table->string('agency')->nullable();
             $table->double('value');
             $table->date('date');
+            $table->boolean('status')->default(false);
         });
     }
 
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transfers');
+        Schema::dropIfExists('pendencies');
     }
 };
