@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('pendencies', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->foreign('sender')->references('id')->on('accounts');
-            $table->string('recipient')->nullable();
-            $table->string('agency')->nullable();
+            $table->foreign('senderAccount')->references('id')->on('accounts');
+            $table->string('recipientAccount')->nullable();
+            $table->string('recipientAgency')->nullable();
             $table->double('value');
             $table->date('date');
             $table->boolean('status')->default(false);

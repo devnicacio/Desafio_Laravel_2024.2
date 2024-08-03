@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('transfers', function (Blueprint $table) {
             $table->id();
-            $table->foreign('sender')->references('id')->on('accounts');
-            $table->string('recipient');
-            $table->string('agency');
+            $table->foreign('senderAccount')->references('id')->on('accounts');
+            $table->string('recipientAccount');
+            $table->string('recipientAgency');
             $table->double('value');
             $table->date('date');
         });
