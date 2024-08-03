@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
-            $table->string('agency');
-            $table->string('number')->unique();
+            $table->string('agency', 4);
+            $table->string('number', 7)->unique();
             $table->double('balance');
             $table->double('transferLimit');
             $table->string('password');
