@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('agency', 4);
             $table->string('number', 7)->unique();
-            $table->double('balance');
+            $table->double('balance')->default(0);
             $table->double('transferLimit');
             $table->string('password');
         });
