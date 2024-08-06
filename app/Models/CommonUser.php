@@ -21,12 +21,12 @@ class CommonUser extends Model
         'photo',
         'phoneNumber',
         'birthdate',
-        'cpf',
+        'cpf'
     ];
+
+    public $timestamps = false;
 
     public function account() {
         return $this->hasOne(Account::class);
     }
-
-    public $timestamps = false;
 }

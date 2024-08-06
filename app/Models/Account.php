@@ -19,9 +19,9 @@ class Account extends Model
         'password',
     ];
 
+    public $timestamps = false;
+
     public function user() {
         return $this->belongsTo(CommonUser::class);
     }
-
-    public $timestamps = false;
 }
