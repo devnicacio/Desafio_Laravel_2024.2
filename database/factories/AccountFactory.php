@@ -21,18 +21,10 @@ class AccountFactory extends Factory
     {
         return [
         'agency' => strval(fake()->randomNumber(4, true)),
-        'number' => $this->generateAccountNumber(),
+        'number' => generateUnicNumber('accounts', 'number', 7),
         'balance' => fake()->randomFloat(2),
         'transferLimit' => fake()->randomFloat(2),
-        'password' => Hash::make(fake()->randomNumber(6, true))
+        'password' => Hash::make('000000')
         ];
-    }
-
-    public function generateAccountNumber() {
-        do{
-            $number = strval(fake()->randomNumber(7, true));
-        } while(DB::table('accounts')->where('number', $number)->exists());
-
-        return $number;
     }
 }
