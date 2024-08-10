@@ -16,10 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->unsignedBigInteger('account');
-            $table->foreign('account')->references('id')->on('accounts');
-            $table->unsignedBigInteger('manager');
-            $table->foreign('manager')->references('id')->on('managers');
+            $table->foreignId('account')->constrained('accounts');
+            $table->foreignId('manager')->constrained('managers');
             $table->string('address');
             $table->string('photo');
             $table->string('phoneNumber')->unique();
