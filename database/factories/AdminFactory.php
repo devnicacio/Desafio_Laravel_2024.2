@@ -24,12 +24,12 @@ class AdminFactory extends Factory
             'name' => $fakerBR->name(),
             'email'=> generateUnicEmail('admins', 'email'),
             'password' => Hash::make('000000'),
-            'address' => fake()->numberBetween(1,Address::count()),
+            'address' => 1,
             'phoneNumber' => $fakerBR->cellphoneNumber(),
             'birthdate' => fake()->dateTimeBetween('-100 years', '-18 years'),
             'cpf' => $fakerBR->cpf(),
             'photo' => fake()->mimeType(),
-            'admin'=> null,
+            'admin'=> 1,
         ];
     }
 }

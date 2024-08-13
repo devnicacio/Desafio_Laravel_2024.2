@@ -2,9 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Account;
+use App\Models\Address;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,7 +17,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            AccountSeeder::class,
+            SupportSeeder::class,
+            AdminSeeder::class,
+            DeleteSupportSeeder::class,
         ]);
     }
 }

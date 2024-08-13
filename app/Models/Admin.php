@@ -24,4 +24,12 @@ class Admin extends Model
     ];
 
     public $timestamps = false;
+
+    public function admins(){
+        return $this->hasMany(Admin::class);
+    }
+
+    public function managers(){
+        return $this->hasMany(Manager::class);
+    }
 }

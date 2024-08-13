@@ -14,7 +14,10 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        Address::factory(10)->create();
-        Admin::factory(10)->create();
+        Admin::factory(10)->create()->each(function ($admin){
+            $address = Address::factory()->create();
+            $admin->address = $address->id;
+            $admin->save();
+        });
     }
 }

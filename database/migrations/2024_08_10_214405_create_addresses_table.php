@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('neighborhood');
             $table->string('street');
-            $table->double('number');
+            $table->string('number');
             $table->string('complement')->nullable();
         });
     }
