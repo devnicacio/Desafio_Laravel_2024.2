@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Account>
@@ -20,8 +19,8 @@ class AccountFactory extends Factory
     public function definition(): array
     {
         return [
-        'agency' => strval(fake()->randomNumber(4, true)),
-        'number' => generateUnicNumber('accounts', 'number', 7),
+        'agency' => fake()->numerify('####'),
+        'number' => generateUnicNumber('accounts', 'number', '#######'),
         'balance' => fake()->randomFloat(2),
         'transferLimit' => fake()->randomFloat(2),
         'password' => Hash::make('000000')
