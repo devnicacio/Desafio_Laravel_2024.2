@@ -21,7 +21,8 @@ return new class extends Migration
             $table->date('birthdate');
             $table->string('cpf')->unique();
             $table->string('photo');
-            $table->foreignId('admin')->constrained('admins');
+            $table->unsignedBigInteger('admin')->nullable();
+            $table->foreign('admin')->references('id')->on('admins');
         });
     }
 

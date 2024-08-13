@@ -19,6 +19,7 @@ class AdminFactory extends Factory
     public function definition(): array
     {
         $fakerBR = \Faker\Factory::create('pt_BR');
+
         return [
             'name' => $fakerBR->name(),
             'email'=> generateUnicEmail('admins', 'email'),
@@ -28,7 +29,7 @@ class AdminFactory extends Factory
             'birthdate' => fake()->dateTimeBetween('-100 years', '-18 years'),
             'cpf' => $fakerBR->cpf(),
             'photo' => fake()->mimeType(),
-            'admin'=> 1,
+            'admin'=> null,
         ];
     }
 }
