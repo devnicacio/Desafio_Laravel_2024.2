@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\DB;
 
 
-if(!function_exists('generateUnicNumber')){
+if(!function_exists('generateUnicEmail')){
     function generateUnicEmail($table, $column) {
         $faker = \Faker\Factory::create();
         
