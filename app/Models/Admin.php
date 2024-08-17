@@ -25,6 +25,10 @@ class Admin extends Model
 
     public $timestamps = false;
 
+    public function admin(){
+        return $this->belongsTo(Admin::class);
+    }
+
     public function admins(){
         return $this->hasMany(Admin::class);
     }
