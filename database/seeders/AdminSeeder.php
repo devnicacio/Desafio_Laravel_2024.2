@@ -17,6 +17,7 @@ class AdminSeeder extends Seeder
         Admin::factory(10)->create()->each(function ($admin){
             $address = Address::factory()->create();
             $admin->address = $address->id;
+            //$admin->admin_id = findAdminWithLessAdmins();
             $admin->save();
         });
     }
