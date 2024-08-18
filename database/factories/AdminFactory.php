@@ -29,7 +29,7 @@ class AdminFactory extends Factory
             'birthdate' => fake()->dateTimeBetween('-100 years', '-18 years'),
             'cpf' => $fakerBR->cpf(),
             'photo' => fake()->mimeType(),
-            'admin_id'=> 1,
+            'admin'=> 1,
         ];
     }
 }

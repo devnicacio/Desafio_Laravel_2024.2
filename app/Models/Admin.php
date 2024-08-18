@@ -30,7 +30,7 @@ class Admin extends Model
     }
 
     public function admins(){
-        return $this->hasMany(Admin::class);
+        return $this->hasMany(Admin::class, 'admin');
     }
 
     public function managers(){
