@@ -20,7 +20,7 @@ class Admin extends Model
         'birthdate',
         'cpf',
         'photo',
-        'admin'
+        'admin_id'
     ];
 
     public $timestamps = false;

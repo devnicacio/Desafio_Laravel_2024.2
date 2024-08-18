@@ -6,16 +6,11 @@ use Illuminate\Support\Facades\DB;
 
 if(!function_exists('findAdminWithLessAdmins')){
     function findAdminWithLessAdmins(){
-        if(empty(Admin::get()))
-            return 1;
-        $adminsCount = Admin::get();
+        $adminChosen = Admin::get()->first();
+        $minor = $adminChosen->admins()->count();
 
-        if($adminsCount > 1){
-            $adminChosen = Admin::get()->first();
-            $minor = $adminChosen->admins()->count();
-
-            $admins = Admin::skip(1)->get();
-            foreach($admins as $admin){
+        $admins = Admin::all();
+        foreach($admins as $admin){
                 $aux = $admin->admins()->count();
 
                 if($aux < $minor){
@@ -26,7 +21,6 @@ if(!function_exists('findAdminWithLessAdmins')){
             return $adminChosen->id;
         }
         return 1;
-    }
 }
 
 

@@ -32,7 +32,5 @@ class SupportSeeder extends Seeder
             'transferLimit' => 1,
             'password' => 'Brazil',
         ]);
-
-
     }
 }
