@@ -5,16 +5,16 @@ use App\Models\Manager;
 use Illuminate\Support\Facades\DB;
 
 if(!function_exists('findAdminWithLessAdmins')){
-    function findAdminWithLessAdmins(){
+    function findAdminWithLessAdmins($adminId){
         $adminChosen = Admin::get()->first();
         $minor = $adminChosen->admins()->count();
 
         $admins = Admin::all();
         foreach($admins as $admin){
-                $aux = $admin->admins()->count();
+                $minorTest = $admin->admins()->count();
 
-                if($aux < $minor){
-                    $minor = $aux;
+                if(($minorTest < $minor) && $admin->id != $adminId){
+                    $minor = $minorTest;
                     $adminChosen = $admin;
                 }
             }
@@ -31,10 +31,10 @@ if(!function_exists('findBetterAdmin')){
 
         $admins = Admin::skip(1)->get();
         foreach($admins as $admin){
-            $aux = $admin->managers()->count();
+            $minorTest = $admin->managers()->count();
 
-            if($aux < $minor){
-                $minor = $aux;
+            if($minorTest < $minor){
+                $minor = $minorTest;
                 $adminChosen = $admin;
             }
         }
@@ -49,10 +49,10 @@ if(!function_exists('findBetterManager')){
 
         $managers = Manager::skip(1)->get();
         foreach($managers as $manager){
-            $aux = $manager->managers()->count();
+            $minorTest = $manager->managers()->count();
 
-            if($aux < $minor){
-                $minor = $aux;
+            if($minorTest < $minor){
+                $minor = $minorTest;
                 $managerChosen = $manager;
             }
         }
