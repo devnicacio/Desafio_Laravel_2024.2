@@ -4,23 +4,22 @@ use App\Models\Admin;
 use App\Models\Manager;
 use Illuminate\Support\Facades\DB;
 
-if(!function_exists('findAdminWithLessAdmins')){
-    function findAdminWithLessAdmins($adminId){
-        $adminChosen = Admin::get()->first();
-        $minor = $adminChosen->admins()->count();
-
+if(!function_exists('betterAdminForAdmins')){
+    function betterAdminForAdmins($adminId){
         $admins = Admin::all();
+        $adminChosen = $admins->first();
+        $minor = $adminChosen->admins()->count();
+        
         foreach($admins as $admin){
-                $minorTest = $admin->admins()->count();
+            $minorTest = $admin->admins()->count();
 
-                if(($minorTest < $minor) && $admin->id != $adminId){
-                    $minor = $minorTest;
-                    $adminChosen = $admin;
-                }
+            if(($minorTest < $minor) && $admin->id != $adminId){
+                $minor = $minorTest;
+                $adminChosen = $admin;
             }
-            return $adminChosen->id;
         }
-        return 1;
+        return $adminChosen->id;
+    }
 }
 
 

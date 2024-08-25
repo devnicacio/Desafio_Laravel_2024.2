@@ -14,10 +14,10 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        Admin::factory(3)->create()->each(function ($admin){
+        Admin::factory(4)->create()->skip(2)->each(function ($admin){ //TODOS OS ADMINS SÃO INICIALMENTE CRIADOS COM ADMIN = 1 (CRIADOR)
             $address = Address::inRandomOrder()->first();
             $admin->address = $address->id;
-            $admin->admin = findAdminWithLessAdmins($admin->id);
+            $admin->admin = betterAdminForAdmins($admin->id);
             $admin->save();
         });
     }
