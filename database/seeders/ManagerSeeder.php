@@ -2,17 +2,19 @@
 
 namespace Database\Seeders;
 
-use App\Models\Address;
+use App\Models\Manager;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class AddressSeeder extends Seeder
+class ManagerSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Address::factory(3)->create();
+        Manager::factory(10)->create()->skip(2)->each(function($manager){
+            $manager->admin = betterAdminforManagers();
+        });
     }
 }

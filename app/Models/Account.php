@@ -24,4 +24,8 @@ class Account extends Model
     public function user() {
         return $this->belongsTo(CommonUser::class);
     }
+
+    public function manager() {
+        return $this->belongsTo(Manager::class);
+    }
 }
