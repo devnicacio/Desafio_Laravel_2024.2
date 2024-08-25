@@ -24,6 +24,11 @@ class Manager extends Model
 
     public $timestamps = false;
 
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class);
+    }
+
     public function users()
     {
         return $this->hasMany(CommonUser::class);

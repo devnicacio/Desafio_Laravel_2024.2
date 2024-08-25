@@ -13,8 +13,9 @@ class ManagerSeeder extends Seeder
      */
     public function run(): void
     {
-        Manager::factory(10)->create()->skip(2)->each(function($manager){
+        Manager::factory(1)->create()->skip(0)->each(function($manager){
             $manager->admin = betterAdminforManagers();
+            $manager->save();
         });
     }
 }

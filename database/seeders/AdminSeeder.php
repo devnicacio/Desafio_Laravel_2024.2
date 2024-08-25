@@ -14,7 +14,7 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        Admin::factory(10)->create()->skip(2)->each(function ($admin){ //TODOS OS ADMINS SÃO INICIALMENTE CRIADOS COM ADMIN = 1 (CRIADOR)
+        Admin::factory(4)->create()->skip(2)->each(function ($admin){ //TODOS OS ADMINS SÃO INICIALMENTE CRIADOS COM ADMIN = 1 (CRIADOR)
             $admin->admin = betterAdminForAdmins($admin->id);
             $admin->save();
         });

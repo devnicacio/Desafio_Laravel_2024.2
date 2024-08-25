@@ -23,7 +23,7 @@ class ManagerFactory extends Factory
 
         return [
             'name' => $fakerBR->name(),
-            'email'  => generateUnicEmail('admins', 'email'),
+            'email'  => generateUnicEmail('managers', 'email'),
             'password' => Hash::make('000000'),
             'account' => Account::factory()->create()->id,
             'admin' => 1,

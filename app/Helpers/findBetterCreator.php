@@ -22,17 +22,16 @@ if(!function_exists('betterAdminForAdmins')){
     }
 }
 
-
 if(!function_exists('betterAdminforManagers')){
     function betterAdminforManagers() {
         $admins = Admin::all();
         $adminChosen = $admins->first();
-        $minor = $adminChosen->admins()->count();
+        $minor = $adminChosen->managers()->count();
         
         foreach($admins as $admin){
-            $minorTest = $admin->admins()->count();
+            $minorTest = $admin->managers()->count();
 
-            if(($minorTest < $minor)){
+            if($minorTest < $minor){
                 $minor = $minorTest;
                 $adminChosen = $admin;
             }
