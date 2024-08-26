@@ -40,7 +40,7 @@ if(!function_exists('betterAdminforManagers')){
     }
 }
 
-if(!function_exists('findBetterManager')){
+if(!function_exists('betterManagerdorCommonUsers')){
     function findBetterManager() {
         $managerChosen = Manager::get()->first();
         $minor = $managerChosen->managers()->count();
