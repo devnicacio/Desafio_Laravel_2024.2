@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Account;
+use App\Models\Address;
+use Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,15 +23,15 @@ class CommonUserFactory extends Factory
 
         return [
             'name' => $fakerBR->name(), 
-            'email' => , 
-            'password' => , 
-            'account' => , 
-            'manager' => , 
-            'address' => , 
-            'photo' => , 
-            'phoneNumber' => , 
-            'birthdate' => , 
-            'cpf' =>  
+            'email' => generateUnicEmail('admins', 'email'),
+            'password' => Hash::make('abc123*'),
+            'account' => Account::factory()->create()->id,
+            'manager' => 1,
+            'address' => Address::factory()->create()->id,
+            'photo' => fake()->mimeType(),
+            'phoneNumber' => $fakerBR->cellphoneNumber(),
+            'birthdate' => fake()->dateTimeBetween('-100 years', '-18 years'),
+            'cpf' => $fakerBR->cpf()
         ];
     }
 }

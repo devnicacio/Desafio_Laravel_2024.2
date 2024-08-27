@@ -22,8 +22,8 @@ if(!function_exists('betterAdminForAdmins')){
     }
 }
 
-if(!function_exists('betterAdminforManagers')){
-    function betterAdminforManagers() {
+if(!function_exists('betterAdminForManagers')){
+    function betterAdminForManagers() {
         $admins = Admin::all();
         $adminChosen = $admins->first();
         $minor = $adminChosen->managers()->count();
@@ -40,14 +40,14 @@ if(!function_exists('betterAdminforManagers')){
     }
 }
 
-if(!function_exists('betterManagerdorCommonUsers')){
-    function findBetterManager() {
-        $managerChosen = Manager::get()->first();
-        $minor = $managerChosen->managers()->count();
-
-        $managers = Manager::skip(1)->get();
+if(!function_exists('betterManagerForCommonUsers')){
+    function betterManagerForCommonUsers() {
+        $managers = Manager::all();
+        $managerChosen = $managers->first();
+        $minor = $managerChosen->commonUsers()->count();
+        
         foreach($managers as $manager){
-            $minorTest = $manager->managers()->count();
+            $minorTest = $manager->commonUsers()->count();
 
             if($minorTest < $minor){
                 $minor = $minorTest;

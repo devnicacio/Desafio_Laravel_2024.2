@@ -29,4 +29,9 @@ class CommonUser extends Model
     public function account() {
         return $this->hasOne(Account::class);
     }
+
+    public function manager()
+    {
+        return $this->belongsTo(Manager::class);
+    }
 }

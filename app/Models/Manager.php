@@ -29,9 +29,9 @@ class Manager extends Model
         return $this->belongsTo(Admin::class);
     }
 
-    public function users()
+    public function commonUsers()
     {
-        return $this->hasMany(CommonUser::class);
+        return $this->hasMany(CommonUser::class, 'manager');
     }
 
     public function account()

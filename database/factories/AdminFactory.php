@@ -23,7 +23,7 @@ class AdminFactory extends Factory
         return [
             'name' => $fakerBR->name(),
             'email'=> generateUnicEmail('admins', 'email'),
-            'password' => Hash::make('000000'),
+            'password' => Hash::make('abc123*'),
             'address' => Address::factory()->create()->id,
             'phoneNumber' => $fakerBR->cellphoneNumber(),
             'birthdate' => fake()->dateTimeBetween('-100 years', '-18 years'),
