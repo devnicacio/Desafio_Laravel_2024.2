@@ -13,7 +13,7 @@ class CommonUserSeeder extends Seeder
      */
     public function run(): void
     {
-        CommonUser::factory(4)->create()->skip(1)->each(function($commonUser){
+        CommonUser::factory(30)->create()->skip(1)->each(function($commonUser){
             $commonUser->manager = betterManagerForCommonUsers();
             $commonUser->save();
         });
