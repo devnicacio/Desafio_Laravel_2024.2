@@ -18,3 +18,4 @@ class AdminAuthenticator
         return $next($request);
     }
 }
+

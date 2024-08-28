@@ -22,3 +22,4 @@ class CommonUserAuthenticator
         return redirect('/login');
     }
 }
+

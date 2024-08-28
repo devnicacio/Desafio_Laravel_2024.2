@@ -18,3 +18,4 @@ class ManagerAuthenticator
         return $next($request);
     }
 }
+
