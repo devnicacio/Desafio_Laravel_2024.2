@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AdminSeeder::class,
             ManagerSeeder::class,
-            CommonUserSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }

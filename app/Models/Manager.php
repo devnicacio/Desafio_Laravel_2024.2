@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Manager extends Model
+use Illuminate\Foundation\Auth\User as Authenticatable;
+class Manager extends Authenticatable
 {
     protected $table = 'managers';
 
@@ -31,7 +32,7 @@ class Manager extends Model
 
     public function commonUsers()
     {
-        return $this->hasMany(CommonUser::class, 'manager');
+        return $this->hasMany(User::class, 'manager');
     }
 
     public function account()

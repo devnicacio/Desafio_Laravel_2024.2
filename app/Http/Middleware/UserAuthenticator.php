@@ -2,12 +2,13 @@
 
 namespace App\Http\Middleware;
 
-use Auth;
+
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class CommonUserAuthenticator
+class UserAuthenticator
 {
     /**
      * Handle an incoming request.
@@ -16,7 +17,7 @@ class CommonUserAuthenticator
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::guard('commonUser')->check()){
+        if(Auth::guard('web')->check()){
             return $next($request);
         }
         return redirect('/login');
