@@ -70,19 +70,19 @@ return [
     */
 
     'providers' => [
-        'user' => [
+        'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => App\Models\User::class,
         ],
 
         'managers' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\Manager::class),
+            'model' => App\Models\Manager::class,
         ],
 
         'admins' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\Admin::class),
+            'model' => App\Models\Admin::class,
         ],
         // 'users' => [
         //     'driver' => 'database',

@@ -20,7 +20,7 @@ class ManagerAuthenticator
         if(Auth::guard('manager')->check()){
             return $next($request);
         }
-        return redirect('/');
+        return redirect('/login');
     }
 }
 
