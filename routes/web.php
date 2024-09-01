@@ -20,9 +20,9 @@ Route::middleware('admin')->group(function () {
 });
 
 Route::middleware('manager')->group(function () {
-    Route::get('/dashboardManager', function () {
-        echo Auth::guard('manager')->user()->name;
-    })->name('dashboardManager');
+    Route::get('/manager-dashboard', function () {
+        return view('manager.managerDashboard');
+    })->name('manager-dashboard');
 });
 
 Route::middleware('auth')->group(function () {

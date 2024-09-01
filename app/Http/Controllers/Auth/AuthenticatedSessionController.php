@@ -40,7 +40,7 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('dashboard');
         }
         else if(Auth::guard('manager')->attempt($credentials)) {
-            return redirect()->route('dashboardManager');
+            return redirect()->route('manager-dashboard');
         }
         else if(Auth::guard('admin')->attempt($credentials)){
             return redirect()->route('dashboardAdmin');
