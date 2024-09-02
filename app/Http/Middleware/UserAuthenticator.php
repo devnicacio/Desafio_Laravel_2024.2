@@ -20,7 +20,7 @@ class UserAuthenticator
         if(Auth::guard('web')->check()){
             return $next($request);
         }
-        return redirect('/login');
+        return redirect('/');
     }
 }
 

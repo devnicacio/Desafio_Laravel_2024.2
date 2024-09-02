@@ -20,7 +20,7 @@ class AdminAuthenticator
         if(Auth::guard('admin')->check()){
             return $next($request);
         }
-        return redirect('/login');
+        return redirect('/');
     }
 }
 

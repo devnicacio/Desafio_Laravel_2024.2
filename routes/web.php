@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Route::middleware('web')->group(function () {
@@ -20,9 +21,9 @@ Route::middleware('admin')->group(function () {
 });
 
 Route::middleware('manager')->group(function () {
-    Route::get('/manager-dashboard', function () {
-        return view('manager.managerDashboard');
-    })->name('manager-dashboard');
+    Route::get('/manager-dashboard', [ManagerController::class, 'index'])->name('manager-dashboard');
+    Route::get('/manager-userlist', [ManagerController::class, 'userlist'])->name('manager-userlist');
+
 });
 
 Route::middleware('auth')->group(function () {

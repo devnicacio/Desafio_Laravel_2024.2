@@ -30,14 +30,14 @@ class Manager extends Authenticatable
         return $this->belongsTo(Admin::class);
     }
 
-    public function commonUsers()
+    public function users()
     {
         return $this->hasMany(User::class, 'manager');
     }
 
     public function account()
     {
-        return $this->hasOne(Account::class);
+        return $this->hasOne(Account::class, 'account');
     }
 
     use HasFactory;
