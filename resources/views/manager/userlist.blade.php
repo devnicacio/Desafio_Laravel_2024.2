@@ -18,7 +18,7 @@
                     {{"Lista de usuários"}}
                 </div>
                 <div class="px-6">
-                    <x-primary-button>
+                    <x-primary-button style="background:#0571d3">
                         {{"Criar usuário"}}
                     </x-primary-button>
                 </div>
@@ -26,7 +26,20 @@
             <div class="py-6">
                 @foreach ($users as $user)
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex justify-between items-center p-4 mb-2">
-                    <p>{{$user->name}}</p>
+                    <div>
+                        <p>{{$user->name}}</p>
+                    </div>
+                    <div class="flex gap-2 ml-4">
+                        <x-primary-button style="background:#0571d3; padding:7px 10px">
+                            <i class="bi bi-eye-fill" style="font-size:17px"></i>
+                        </x-primary-button>
+                        <x-primary-button style="background:#ffa500; padding:7px 10px">
+                            <i class="bi bi-pencil-square" style="font-size:17px"></i>
+                        </x-primary-button>
+                        <x-primary-button style="background:red; padding:7px 10px">
+                            <i class="bi bi-trash3-fill" style="font-size:17px"></i>
+                        </x-primary-button>
+                    </div>
                 </div>
                 @endforeach
             </div>

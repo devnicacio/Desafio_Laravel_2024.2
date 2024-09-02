@@ -18,7 +18,7 @@
                     {{"Saldo: R$ $account->balance"}}
                 </div>
                 <div class="px-6">
-                    <x-primary-button>
+                    <x-primary-button style="background:#0571d3">
                         {{"Ver extrato"}}
                     </x-primary-button>
                 </div>
