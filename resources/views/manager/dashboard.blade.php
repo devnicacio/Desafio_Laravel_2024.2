@@ -1,14 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight flex items-center">
-                {{ __('Painel de Gerente') }}
-            </h2>
-            <div>
-                <p class="text-sm">{{"Agência: $account->agency"}}</p>
-                <p class="text-sm">{{"Conta: $account->number"}}</p>
-            </div>
-        </div>
+        <x-safebank-nav :authguard="Auth::guard('manager')->user()" >
+            Painel Gerente
+        </x-safebank-nav>
     </x-slot>
 
     <div class="py-12">
@@ -36,7 +30,7 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex justify-between items-center p-6">
                     <p>Empréstimo</p>
                 </div>
-                <a href="/manager-userlist">
+                <a href="/manager-user-list">
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex justify-between items-center p-6">
                         <p>Lista de usuários</p>
                     </div>

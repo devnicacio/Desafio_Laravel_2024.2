@@ -22,8 +22,9 @@ Route::middleware('admin')->group(function () {
 
 Route::middleware('manager')->group(function () {
     Route::get('/manager-dashboard', [ManagerController::class, 'index'])->name('manager-dashboard');
-    Route::get('/manager-userlist', [ManagerController::class, 'userlist'])->name('manager-userlist');
-
+    Route::get('/manager-user-list', [ManagerController::class, 'userlist'])->name('manager-user-list');
+    Route::get('/manager-show-user/{user}', [ManagerController::class, 'showUser'])->name('manager-show-user');
+    Route::get('/manager-show-edit/{user}', [ManagerController::class, 'showEdit'])->name('manager-show-edit');
 });
 
 Route::middleware('auth')->group(function () {

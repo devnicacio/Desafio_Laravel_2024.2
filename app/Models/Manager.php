@@ -37,7 +37,7 @@ class Manager extends Authenticatable
 
     public function account()
     {
-        return $this->hasOne(Account::class, 'account');
+        return $this->belongsTo(Account::class, 'account');
     }
 
     use HasFactory;

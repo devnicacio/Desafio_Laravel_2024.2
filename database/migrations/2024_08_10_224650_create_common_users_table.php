@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->foreignId('account')->constrained('accounts');
             $table->foreignId('manager')->constrained('managers');
-            $table->string('address');
+            $table->foreignId('address')->constrained('addresses');
             $table->string('photo');
             $table->string('phoneNumber')->unique();
             $table->date('birthdate');

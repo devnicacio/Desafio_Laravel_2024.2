@@ -44,10 +44,10 @@ if(!function_exists('betterManagerForCommonUsers')){
     function betterManagerForCommonUsers() {
         $managers = Manager::all();
         $managerChosen = $managers->first();
-        $minor = $managerChosen->commonUsers()->count();
+        $minor = $managerChosen->users()->count();
         
         foreach($managers as $manager){
-            $minorTest = $manager->commonUsers()->count();
+            $minorTest = $manager->users()->count();
 
             if($minorTest < $minor){
                 $minor = $minorTest;

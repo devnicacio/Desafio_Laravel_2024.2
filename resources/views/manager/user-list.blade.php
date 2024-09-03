@@ -18,9 +18,11 @@
                     {{"Lista de usuários"}}
                 </div>
                 <div class="px-6">
-                    <x-primary-button style="background:#0571d3">
-                        {{"Criar usuário"}}
-                    </x-primary-button>
+                    <a href="">
+                        <x-primary-button style="background:#0571d3">
+                            {{"Criar usuário"}}
+                        </x-primary-button>
+                    </a>
                 </div>
             </div>
             <div class="py-6">
@@ -30,15 +32,15 @@
                         <p>{{$user->name}}</p>
                     </div>
                     <div class="flex gap-2 ml-4">
-                        <x-primary-button style="background:#0571d3; padding:7px 10px">
-                            <i class="bi bi-eye-fill" style="font-size:17px"></i>
-                        </x-primary-button>
-                        <x-primary-button style="background:#ffa500; padding:7px 10px">
-                            <i class="bi bi-pencil-square" style="font-size:17px"></i>
-                        </x-primary-button>
-                        <x-primary-button style="background:red; padding:7px 10px">
-                            <i class="bi bi-trash3-fill" style="font-size:17px"></i>
-                        </x-primary-button>
+                        <a href="{{ route('manager-show-user', $user->id) }}" style="background:#0571d3; padding:7px 10px; border-radius: 6px">
+                            <i class="bi bi-eye-fill" style="font-size:17px; color:white"></i>
+                        </a>
+                        <a href="{{ route('manager-show-edit', $user->id) }}" style="background:#0571d3; padding:7px 10px; border-radius: 6px">
+                            <i class="bi bi-pencil-square" style="font-size:17px; color:white"></i>
+                        </a>
+                        <a href="" style="background:#0571d3; padding:7px 10px; border-radius: 6px">
+                            <i class="bi bi-trash3-fill" style="font-size:17px; color:white"></i>
+                        </a>
                     </div>
                 </div>
                 @endforeach

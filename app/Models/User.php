@@ -24,10 +24,19 @@ class User extends Authenticatable
         'cpf'
     ];
 
+    protected $casts = [
+        'birthdate' => 'date'
+    ];
+
     public $timestamps = false;
 
     public function account() {
-        return $this->hasOne(Account::class);
+        return $this->belongsTo(Account::class);
+    }
+
+    public function address()
+    {
+        return $this->belongsTo(Account::class);
     }
 
     public function manager()
