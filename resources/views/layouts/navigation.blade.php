@@ -2,17 +2,10 @@
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                </div>
-
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex items-center">
-                    {{"Safebank"}}
-                </div>
-            </div>
+            <a href="{{route('manager-dashboard')}}" class="shrink-0 flex items-center">
+                    <img src="{{ asset('images/safebank-logo.png') }}" alt="Logo Safebank" class="block h-11 w-auto fill-current text-gray-800">
+                    <p class="ml-2 flex items-center text-lg text-[#0571d3]">Safebank</p>
+            </a>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
@@ -40,7 +33,7 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            {{ __('Meu perfil') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -50,7 +43,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Logout') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -104,7 +97,7 @@
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
+                    {{ __('Meu perfil') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->
@@ -114,7 +107,7 @@
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        {{ __('Logout') }}
                     </x-responsive-nav-link>
                 </form>
             </div>

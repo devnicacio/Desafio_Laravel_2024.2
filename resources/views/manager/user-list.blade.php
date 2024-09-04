@@ -13,15 +13,15 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex justify-between items-center">
+            <div class="bg-white overflow-hidden shadow-md sm:rounded-lg flex justify-between items-center">
                 <div class="p-6 text-gray-900 text-lg">
                     {{"Lista de usuários"}}
                 </div>
                 <div class="px-6">
                     <a href="">
-                        <x-primary-button style="background:#0571d3">
+                        <x-safebank-link-button route="manager-user-list">
                             {{"Criar usuário"}}
-                        </x-primary-button>
+                        </x-safebank-link-button>
                     </a>
                 </div>
             </div>
@@ -32,15 +32,18 @@
                         <p>{{$user->name}}</p>
                     </div>
                     <div class="flex gap-2 ml-4">
-                        <a href="{{ route('manager-show-user', $user->id) }}" style="background:#0571d3; padding:7px 10px; border-radius: 6px">
+                        <x-safebank-id-link-button route="manager-show-user" id="{{$user->id}}">
                             <i class="bi bi-eye-fill" style="font-size:17px; color:white"></i>
-                        </a>
-                        <a href="{{ route('manager-show-edit', $user->id) }}" style="background:#0571d3; padding:7px 10px; border-radius: 6px">
+                        </x-safebank-id-link-button>
+
+                        <x-safebank-id-link-button route="manager-show-edit" id="{{$user->id}}">
                             <i class="bi bi-pencil-square" style="font-size:17px; color:white"></i>
-                        </a>
-                        <a href="" style="background:#0571d3; padding:7px 10px; border-radius: 6px">
+                        </x-safebank-id-link-button>
+
+                        <x-safebank-id-link-button route="manager-show-edit" id="{{$user->id}}">
                             <i class="bi bi-trash3-fill" style="font-size:17px; color:white"></i>
-                        </a>
+                        </x-safebank-id-link-button>
+
                     </div>
                 </div>
                 @endforeach

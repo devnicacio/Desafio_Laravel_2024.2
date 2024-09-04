@@ -7,37 +7,51 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex justify-between items-center">
+            <div class="bg-white overflow-hidden shadow-md sm:rounded-lg flex justify-between items-center">
                 <div class="p-6 text-gray-900 text-lg">
                     {{"Saldo: R$ $account->balance"}}
                 </div>
                 <div class="px-6">
-                    <x-primary-button style="background:#0571d3">
+                    <x-safebank-link-button route="manager-user-list">
                         {{"Ver extrato"}}
-                    </x-primary-button>
+                    </x-safebank-link-button>
                 </div>
             </div>
             <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-6">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex justify-between items-center p-6">
+                <x-safebank-link-button route="manager-user-list">
                     <p>Saque</p>
-                </div>
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex justify-between items-center p-6">
+                    <i class="bi bi-cash-stack" style="font-size:35px; color:white"></i>
+                </x-safebank-link-button>
+
+                <x-safebank-link-button route="manager-user-list">
                     <p>Depósito</p>
-                </div>
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex justify-between items-center p-6">
+                    <i class="bi bi-piggy-bank-fill" style="font-size:35px; color:white"></i>
+                </x-safebank-link-button>
+
+                <x-safebank-link-button route="manager-user-list">
                     <p>Transferência</p>
-                </div>
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex justify-between items-center p-6">
-                    <p>Empréstimo</p>
-                </div>
-                <a href="/manager-user-list">
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex justify-between items-center p-6">
-                        <p>Lista de usuários</p>
-                    </div>
-                </a>
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex justify-between items-center p-6">
+                    <i class="bi bi-arrow-left-right" style="font-size:35px; color:white"></i>
+                </x-safebank-link-button>
+
+                <x-safebank-link-button route="manager-user-list">
+                    <p>Pedir empréstimo</p>
+                    <i class="bi bi-cash-coin" style="font-size:35px; color:white"></i>
+                </x-safebank-link-button>
+
+                <x-safebank-link-button route="manager-user-list" icon="cash-stack">
+                    <p>Lista de usuários</p>
+                    <i class="bi bi-people-fill" style="font-size:35px; color:white"></i>
+                </x-safebank-link-button>
+
+                <x-safebank-link-button route="manager-user-list">
                     <p>Pendências</p>
-                </div>
+                    <i class="bi bi-person-fill-exclamation" style="font-size:35px; color:white"></i>
+                </x-safebank-link-button>
+
+                <x-safebank-link-button route="manager-user-list">
+                    <p>Lista de empréstimos</p>
+                    <i class="bi bi-list-ul" style="font-size:35px; color:white"></i>
+                </x-safebank-link-button>
             </div>
         </div>
         
