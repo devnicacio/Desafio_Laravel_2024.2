@@ -15,79 +15,79 @@
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-md rounded-lg flex justify-between items-center">
                 <div class="p-6 text-gray-900 text-lg">
-                    {{"Edição de usuário"}}
+                    {{"Meu perfil"}}
                 </div>
             </div>
             <div class="py-6">
                 <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6 flex justify-center items-center flex-col">
                     @if($errors->any())
                         <x-safebank-alert-message>
-                            {{$errors->first()}}
+                            {{"Por favor, preencha todos os campos corretamente"}}
                         </x-safebank-alert-message>
                     @endif
-                    <form action="{{route('manager-update-user', $user->id)}}" method="POST" enctype="multipart/form-data" class="w-full flex flex-col items-center">
+                    <form action="{{route('manager-store-user')}}" method="POST" enctype="multipart/form-data" class="w-full flex flex-col items-center">
                         @csrf
                         @method('PUT')
                         <label for="photo" class="relative rounded-full overflow-hidden cursor-pointer">
-                            <img id="photo-preview" src="{{"/" . $user->photo }}" alt="Foto de perfil do Usuário" class="object-cover w-32 h-32">
+                            <img id="photo-preview" src="/images/safebank-default-profile-photo.png" class="object-cover w-32 h-32">
                             <input type="file" id="photo" name="photo" class="hidden" accept="image/*" onchange="previewPhoto(event)">
                         </label>
-                        <p class="text-gray-500 mb-4">Clique para alterar a imagem</p>
+                        <p class="text-gray-500 mb-4">Clique para adicionar uma imagem</p>
                         <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-2 w-full">
                             <div class="flex flex-col">
                                 <label for="name">Nome</label>
-                                <input type="text" id="name" name="name" value="{{$user->name}}" class="rounded-md">
+                                <input type="text" id="name" name="name" class="rounded-md">
                             </div>
                             <div class="flex flex-col">
                                 <label for="email">E-mail</label>
-                                <input type="email" id="email" name="email" value="{{$user->email}}" class="rounded-md">
+                                <input type="email" id="email" name="email" class="rounded-md">
                             </div>
                             <div class="flex flex-col">
                                 <label for="country">País</label>
-                                <input type="text" id="country" name="country" value="{{$address->country}}" class="rounded-md">
+                                <input type="text" id="country" name="country" class="rounded-md">
                             </div>
                             <div class="flex flex-col">
                                 <label for="postalCode">CEP</label>
-                                <input type="text" id="postalCode" name="postalCode" value="{{$address->postalCode}}" class="rounded-md">
+                                <input type="text" id="postalCode" name="postalCode" class="rounded-md">
                             </div>
                             <div class="flex flex-col">
                                 <label for="state">Estado</label>
-                                <input type="text" id="state" name="state" value="{{$address->state}}" class="rounded-md">
+                                <input type="text" id="state" name="state" class="rounded-md">
                             </div>
                             <div class="flex flex-col">
                                 <label for="city">Cidade</label>
-                                <input type="text" id="city" name="city" value="{{$address->city}}" class="rounded-md">
+                                <input type="text" id="city" name="city" class="rounded-md">
                             </div>
                             <div class="flex flex-col">
                                 <label for="neighborhood">Bairro</label>
-                                <input type="text" id="neighborhood" name="neighborhood" value="{{$address->neighborhood}}" class="rounded-md">
+                                <input type="text" id="neighborhood" name="neighborhood" class="rounded-md">
                             </div>
                             <div class="flex flex-col">
                                 <label for="street">Rua</label>
-                                <input type="text" id="street" name="street" value="{{$address->street}}" class="rounded-md">
+                                <input type="text" id="street" name="street" class="rounded-md">
                             </div>
                             <div class="flex flex-col">
                                 <label for="number">Número</label>
-                                <input type="number" id="number" name="number" value="{{$address->number}}" class="rounded-md">
+                                <input type="number" id="number" name="number" class="rounded-md">
                             </div>
                             <div class="flex flex-col">
                                 <label for="complement">Complemento</label>
-                                <input type="text" id="complement" name="complement" value="{{$address->complement}}" class="rounded-md">
+                                <input type="text" id="complement" name="complement" class="rounded-md">
                             </div>
                             <div class="flex flex-col">
                                 <label for="phoneNumber">Telefone</label>
-                                <input type="text" id="phoneNumber" name="phoneNumber" value="{{$user->phoneNumber}}" class="rounded-md">
+                                <input type="text" id="phoneNumber" name="phoneNumber" class="rounded-md">
                             </div>
                             <div class="flex flex-col">
                                 <label for="birthdate">Data de nascimento</label>
-                                <input type="date" id="birthdate" name="birthdate" value="{{$user->birthdate->format('Y-m-d')}}" class="rounded-md">
+                                <input type="date" id="birthdate" name="birthdate" class="rounded-md">
                             </div>
                             <div class="flex flex-col mb-6">
                                 <label for="cpf">CPF</label>
-                                <input type="text" id="cpf" name="cpf" value="{{$user->cpf}}" class="rounded-md">
+                                <input type="text" id="cpf" name="cpf" class="rounded-md">
                             </div>
                             <div class="flex flex-col mb-6">
-                                <label for="password">Senha</label>
+                                <label for="password">Senha do usuário</label>
                                 <input type="password" id="password" name="password" class="rounded-md">
                             </div>
                         </div>

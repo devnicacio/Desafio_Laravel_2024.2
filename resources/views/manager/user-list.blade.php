@@ -24,13 +24,16 @@
                 </div>
                 <div class="px-6">
                     <a href="">
-                        <x-safebank-link-button route="manager-user-list">
+                        <x-safebank-link-button route="manager-show-create-user">
                             {{"Criar usuário"}}
                         </x-safebank-link-button>
                     </a>
                 </div>
             </div>
             <div class="py-6">
+                @if($users->count() == 0)
+                    <p class="flex justify-center text-xl my-4 text-gray-500">Você ainda não têm usuários cadastrados</p>
+                @endif
                 @foreach ($users as $user)
                 <div class="bg-white overflow-hidden shadow-sm rounded-lg flex justify-between items-center p-4 mb-2">
                     <div>
@@ -45,14 +48,40 @@
                             <i class="bi bi-pencil-square" style="font-size:17px; color:white"></i>
                         </x-safebank-id-link-button>
 
-                        <x-safebank-id-link-button route="manager-show-edit" id="{{$user->id}}">
+                        <button onclick="openDeleteModal({{$user->id}})" class="bg-[#0571d3] hover:bg-orange-400 transition-colors text-white text-[18px] overflow-hidden shadow-sm rounded-lg flex justify-between items-center px-2 py-1">
                             <i class="bi bi-trash3-fill" style="font-size:17px; color:white"></i>
-                        </x-safebank-id-link-button>
-
+                        </button>
                     </div>
                 </div>
                 @endforeach
             </div>
         </div>
     </div>
+    <div id="deleteUser" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+        <div class="bg-white rounded-lg p-6 w-[350px]">
+            <h2 class="text-lg font-semibold mb-4">Deseja excluir o usuário?</h2>
+            <div class="flex justify-end gap-4">
+                <button onclick="closeDeleteModal()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md">Cancelar</button>
+                <form action="#" method="POST" id="deleteForm">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-md">Excluir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        function openDeleteModal(userId) {
+            const form = document.getElementById('deleteForm');
+            form.action = `/manager-delete-user/${userId}`;
+            document.getElementById('deleteUser').classList.remove('hidden');
+            document.getElementById('deleteUser').classList.add('flex');
+        }
+    
+        function closeDeleteModal() {
+            document.getElementById('deleteUser').classList.add('hidden');
+            document.getElementById('deleteUser').classList.remove('flex');
+
+        }
+    </script>
 </x-app-layout>

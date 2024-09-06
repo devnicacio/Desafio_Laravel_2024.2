@@ -119,7 +119,7 @@ class ManagerController extends Controller
     {
         $request->validate([
             'country' => 'required|string|max:255',
-            'postalCode' => 'required|string|max:255',
+            'postalCode' => 'required|regex:/^[0-9\-]+$/|max:255',
             'state' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'neighborhood' => 'required|string|max:255',
@@ -136,8 +136,10 @@ class ManagerController extends Controller
 
         $address = $user->address()->first();
 
-        if($request->file('photo'))
+        if($request->file('photo')){
+            unlink(public_path($user->photo));
             $path = "storage/" . $request->file('photo')->store('images','public');
+        }
         else
             $path = $user->photo;
 
@@ -167,7 +169,34 @@ class ManagerController extends Controller
             'password' => $password
         ]);
 
-        $request->session()->flash('msg', 'Dados do usuário atualizados com sucesso!');
+        $request->session()->flash('msg', "Dados do usuário $user->name atualizados com sucesso!");
+
+        return redirect(route('manager-user-list'));
+    }
+
+    public function deleteUser(User $user, Request $request)
+    {
+        if($user->photo != 'images/safebank-default-profile-photo.png')
+            unlink(public_path($user->photo));
+        
+        $user->delete();
+
+        $request->session()->flash('msg', "Usuário excluído com sucesso!");
+
+        return redirect(route('manager-user-list'));
+    }
+
+    public function showCreateUser()
+    {
+        $manager = Auth::guard('manager')->user();
+        $account = $manager->account()->first();
+
+        return view('manager.show-create-user', compact('account'));
+    }
+
+    public function storeUser(Request $request)
+    {
+        $request->session()->flash('msg', "Usuário excluído com sucesso!");
 
         return redirect(route('manager-user-list'));
     }

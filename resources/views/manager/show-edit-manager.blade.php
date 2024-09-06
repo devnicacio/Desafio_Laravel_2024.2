@@ -26,7 +26,7 @@
                 <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6 flex justify-center items-center flex-col">
                     @if($errors->any())
                         <x-safebank-alert-message>
-                            {{"Por favor, preencha todos os campos corretamente"}}
+                            {{$errors->first()}}
                         </x-safebank-alert-message>
                     @endif
                     <form action="{{route('manager-update-manager')}}" method="POST" enctype="multipart/form-data" class="w-full flex flex-col items-center">

@@ -20,7 +20,9 @@
             </div>
             <div class="py-6">
                 <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6 flex justify-center items-center flex-col">
-                    <img src="{{asset($user->photo)}}" alt="Foto de perfil do usuário" class="w-[150px] h-[150px]">
+                    <div for="photo" class="relative rounded-full overflow-hidden mb-4">
+                        <img id="photo-preview" src="{{"/" . $user->photo }}" alt="Foto de perfil do Usuário" class="object-cover w-32 h-32">
+                    </div>
                     <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-2 w-full">
                         <div class="flex flex-col">
                             <label for="name">Nome</label>
