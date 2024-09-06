@@ -28,7 +28,7 @@ class AdminFactory extends Factory
             'phoneNumber' => $fakerBR->cellphoneNumber(),
             'birthdate' => fake()->dateTimeBetween('-100 years', '-18 years'),
             'cpf' => $fakerBR->cpf(),
-            'photo' => fake()->mimeType(),
+            'photo' => "images/safebank-default-profile-photo.png",
             'admin'=> 1,
         ];
     }

@@ -6,10 +6,15 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-md sm:rounded-lg flex justify-between items-center">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            @if(!empty($msg))
+            <x-safebank-confirm-message>
+                {{"Dados editados com sucesso"}}
+            </x-safebank-confirm-message>
+            @endif
+            <div class="bg-white overflow-hidden shadow-md rounded-lg flex justify-between items-center">
                 <div class="p-6 text-gray-900 text-lg">
-                    {{"Saldo: R$ $account->balance"}}
+                    {{"Saldo: R$ " . number_format($account->balance, 2, ',', '.')}}
                 </div>
                 <div class="px-6">
                     <x-safebank-link-button route="manager-user-list">
@@ -39,7 +44,7 @@
                 </x-safebank-link-button>
 
                 <x-safebank-link-button route="manager-user-list" icon="cash-stack">
-                    <p>Lista de usuários</p>
+                    <p>Usuários</p>
                     <i class="bi bi-people-fill" style="font-size:35px; color:white"></i>
                 </x-safebank-link-button>
 
@@ -49,7 +54,7 @@
                 </x-safebank-link-button>
 
                 <x-safebank-link-button route="manager-user-list">
-                    <p>Lista de empréstimos</p>
+                    <p>Empréstimos</p>
                     <i class="bi bi-list-ul" style="font-size:35px; color:white"></i>
                 </x-safebank-link-button>
             </div>

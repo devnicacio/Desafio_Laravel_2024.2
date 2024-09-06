@@ -36,7 +36,7 @@ class User extends Authenticatable
 
     public function address()
     {
-        return $this->belongsTo(Account::class);
+        return $this->belongsTo(Address::class, 'address');
     }
 
     public function manager()

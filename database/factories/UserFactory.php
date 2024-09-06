@@ -28,7 +28,7 @@ class UserFactory extends Factory
             'account' => Account::factory()->create()->id,
             'manager' => 1,
             'address' => Address::factory()->create()->id,
-            'photo' => fake()->mimeType(),
+            'photo' => "images/safebank-default-profile-photo.png",
             'phoneNumber' => $fakerBR->cellphoneNumber(),
             'birthdate' => fake()->dateTimeBetween('-100 years', '-18 years'),
             'cpf' => $fakerBR->cpf()

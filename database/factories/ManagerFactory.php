@@ -28,7 +28,7 @@ class ManagerFactory extends Factory
             'account' => Account::factory()->create()->id,
             'admin' => 1,
             'address' => Address::factory()->create()->id,
-            'photo' => fake()->mimeType(),
+            'photo' => "images/safebank-default-profile-photo.png",
             'phoneNumber' => $fakerBR->cellphoneNumber(),
             'birthdate' => fake()->dateTimeBetween('-100 years', '-18 years'),
             'cpf' => $fakerBR->cpf()

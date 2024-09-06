@@ -24,7 +24,10 @@ Route::middleware('manager')->group(function () {
     Route::get('/manager-dashboard', [ManagerController::class, 'index'])->name('manager-dashboard');
     Route::get('/manager-user-list', [ManagerController::class, 'userlist'])->name('manager-user-list');
     Route::get('/manager-show-user/{user}', [ManagerController::class, 'showUser'])->name('manager-show-user');
-    Route::get('/manager-show-edit/{user}', [ManagerController::class, 'showEdit'])->name('manager-show-edit');
+    Route::get('/manager-show-edit-user/{user}', [ManagerController::class, 'showEditUser'])->name('manager-show-edit');
+    Route::get('/manager-show-edit-manager', [ManagerController::class, 'showEditManager'])->name('manager-show-edit-manager');
+
+    Route::put('/manager-update-manager', [ManagerController::class, 'updateManager'])->name('manager-update-manager');
 });
 
 Route::middleware('auth')->group(function () {

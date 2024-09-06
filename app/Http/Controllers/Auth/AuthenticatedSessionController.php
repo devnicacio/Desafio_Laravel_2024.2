@@ -37,13 +37,13 @@ class AuthenticatedSessionController extends Controller
         Auth::guard('admin')->logout();
 
         if(Auth::guard('web')->attempt($credentials)) {
-            return redirect()->route('dashboard');
+            return redirect()->route('user-dashboard');
         }
         else if(Auth::guard('manager')->attempt($credentials)) {
             return redirect()->route('manager-dashboard');
         }
         else if(Auth::guard('admin')->attempt($credentials)){
-            return redirect()->route('dashboardAdmin');
+            return redirect()->route('admin-dashboard');
         }
 
         return redirect()->back()->withErrors([

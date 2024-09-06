@@ -23,6 +23,10 @@ class Manager extends Authenticatable
         'cpf'
     ];
 
+    protected $casts = [
+        'birthdate' => 'date'
+    ];
+
     public $timestamps = false;
 
     public function admin()
@@ -38,6 +42,11 @@ class Manager extends Authenticatable
     public function account()
     {
         return $this->belongsTo(Account::class, 'account');
+    }
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class, 'address');
     }
 
     use HasFactory;

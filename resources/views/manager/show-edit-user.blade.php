@@ -12,15 +12,16 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-md sm:rounded-lg flex justify-between items-center">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-md rounded-lg flex justify-between items-center">
                 <div class="p-6 text-gray-900 text-lg">
                     {{"Edição de usuário"}}
                 </div>
             </div>
             <div class="py-6">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
+                <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6 flex justify-center items-center flex-col">
+                    <img src="{{asset($user->photo)}}" alt="Foto de perfil do usuário" class="w-[150px] h-[150px]">
+                    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-2 w-full">
                         <div class="flex flex-col">
                             <label for="name">Nome</label>
                             <input type="text" id="name" readonly value="{{$user->name}}" class="rounded-md">
