@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             @if(!empty($msg))
             <x-safebank-confirm-message>
-                {{"Dados editados com sucesso"}}
+                {{$msg}}
             </x-safebank-confirm-message>
             @endif
             <div class="bg-white overflow-hidden shadow-md rounded-lg flex justify-between items-center">

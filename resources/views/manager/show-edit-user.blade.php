@@ -15,72 +15,101 @@
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-md rounded-lg flex justify-between items-center">
                 <div class="p-6 text-gray-900 text-lg">
-                    {{"Edição de usuário"}}
+                    {{"Meu perfil"}}
                 </div>
             </div>
             <div class="py-6">
                 <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6 flex justify-center items-center flex-col">
-                    <img src="{{asset($user->photo)}}" alt="Foto de perfil do usuário" class="w-[150px] h-[150px]">
-                    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-2 w-full">
-                        <div class="flex flex-col">
-                            <label for="name">Nome</label>
-                            <input type="text" id="name" readonly value="{{$user->name}}" class="rounded-md">
+                    @if($errors->any())
+                        <x-safebank-alert-message>
+                            {{"Por favor, preencha todos os campos corretamente"}}
+                        </x-safebank-alert-message>
+                    @endif
+                    <form action="{{route('manager-update-user', $user->id)}}" method="POST" enctype="multipart/form-data" class="w-full flex flex-col items-center">
+                        @csrf
+                        @method('PUT')
+                        <label for="photo" class="relative rounded-full overflow-hidden cursor-pointer">
+                            <img id="photo-preview" src="{{"/" . $user->photo }}" alt="Foto de perfil do Usuário" class="object-cover w-32 h-32">
+                            <input type="file" id="photo" name="photo" class="hidden" accept="image/*" onchange="previewPhoto(event)">
+                        </label>
+                        <p class="text-gray-500 mb-4">Clique para alterar a imagem</p>
+                        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-2 w-full">
+                            <div class="flex flex-col">
+                                <label for="name">Nome</label>
+                                <input type="text" id="name" name="name" value="{{$user->name}}" class="rounded-md">
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="email">E-mail</label>
+                                <input type="email" id="email" name="email" value="{{$user->email}}" class="rounded-md">
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="country">País</label>
+                                <input type="text" id="country" name="country" value="{{$address->country}}" class="rounded-md">
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="postalCode">CEP</label>
+                                <input type="text" id="postalCode" name="postalCode" value="{{$address->postalCode}}" class="rounded-md">
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="state">Estado</label>
+                                <input type="text" id="state" name="state" value="{{$address->state}}" class="rounded-md">
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="city">Cidade</label>
+                                <input type="text" id="city" name="city" value="{{$address->city}}" class="rounded-md">
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="neighborhood">Bairro</label>
+                                <input type="text" id="neighborhood" name="neighborhood" value="{{$address->neighborhood}}" class="rounded-md">
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="street">Rua</label>
+                                <input type="text" id="street" name="street" value="{{$address->street}}" class="rounded-md">
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="number">Número</label>
+                                <input type="number" id="number" name="number" value="{{$address->number}}" class="rounded-md">
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="complement">Complemento</label>
+                                <input type="text" id="complement" name="complement" value="{{$address->complement}}" class="rounded-md">
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="phoneNumber">Telefone</label>
+                                <input type="text" id="phoneNumber" name="phoneNumber" value="{{$user->phoneNumber}}" class="rounded-md">
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="birthdate">Data de nascimento</label>
+                                <input type="date" id="birthdate" name="birthdate" value="{{$user->birthdate->format('Y-m-d')}}" class="rounded-md">
+                            </div>
+                            <div class="flex flex-col mb-6">
+                                <label for="cpf">CPF</label>
+                                <input type="text" id="cpf" name="cpf" value="{{$user->cpf}}" class="rounded-md">
+                            </div>
+                            <div class="flex flex-col mb-6">
+                                <label for="password">Senha</label>
+                                <input type="password" id="password" name="password" class="rounded-md">
+                            </div>
                         </div>
-                        <div class="flex flex-col">
-                            <label for="email">E-mail</label>
-                            <input type="text" id="email" readonly value="{{$user->email}}" class="rounded-md">
-                        </div>
-                        <div class="flex flex-col">
-                            <label for="country">País</label>
-                            <input type="text" id="country" readonly value="{{$address->country}}" class="rounded-md">
-                        </div>
-                        <div class="flex flex-col">
-                            <label for="postalcode">CEP</label>
-                            <input type="text" id="postalcode" readonly value="{{$address->postalCode}}" class="rounded-md">
-                        </div>
-                        <div class="flex flex-col">
-                            <label for="state">Estado</label>
-                            <input type="text" id="state" readonly value="{{$address->state}}" class="rounded-md">
-                        </div>
-                        <div class="flex flex-col">
-                            <label for="city">Cidade</label>
-                            <input type="text" id="city" readonly value="{{$address->city}}" class="rounded-md">
-                        </div>
-                        <div class="flex flex-col">
-                            <label for="neighborhood">Bairro</label>
-                            <input type="text" id="neighborhood" readonly value="{{$address->neighborhood}}" class="rounded-md">
-                        </div>
-                        <div class="flex flex-col">
-                            <label for="street">Rua</label>
-                            <input type="text" id="street" readonly value="{{$address->street}}" class="rounded-md">
-                        </div>
-                        <div class="flex flex-col">
-                            <label for="number">Número</label>
-                            <input type="text" id="number" readonly value="{{$address->number}}" class="rounded-md">
-                        </div>
-                        <div class="flex flex-col">
-                            <label for="complement">Complemento</label>
-                            <input type="text" id="complement" readonly value="{{$address->complement}}" class="rounded-md">
-                        </div>
-                        <div class="flex flex-col">
-                            <label for="phoneNumber">Telefone</label>
-                            <input type="text" id="phoneNumber" readonly value="{{$user->phoneNumber}}" class="rounded-md">
-                        </div>
-                        <div class="flex flex-col">
-                            <label for="birthdate">Data de nascimento</label>
-                            <input type="text" id="birthdate" readonly value="{{$user->birthdate->format('d/m/Y')}}" class="rounded-md">
-                        </div>
-                        <div class="flex flex-col">
-                            <label for="cpf">CPF</label>
-                            <input type="text" id="cpf" readonly value="{{$user->cpf}}" class="rounded-md">
-                        </div>
-                        <div class="flex flex-col">
-                            <label for="manager">Gerente</label>
-                            <input type="text" id="manager" readonly value="{{$manager->name}}" class="rounded-md">
-                        </div>
-                    </div>
+                        <x-safebank-form-button>
+                            {{"Salvar"}}
+                        </x-safebank-form-button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function previewPhoto(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function() {
+                const img = document.getElementById('photo-preview');
+                img.src = reader.result;
+                img.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
 </x-app-layout>
