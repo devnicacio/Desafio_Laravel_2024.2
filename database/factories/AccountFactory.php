@@ -23,7 +23,6 @@ class AccountFactory extends Factory
         'number' => generateUnicNumber('accounts', 'number', '#######'),
         'balance' => fake()->randomFloat(2),
         'transferLimit' => fake()->randomFloat(2),
-        'password' => Hash::make('000000')
         ];
     }
 }

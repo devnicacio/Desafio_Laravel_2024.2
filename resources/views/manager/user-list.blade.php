@@ -58,15 +58,15 @@
         </div>
     </div>
     <div id="deleteUser" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
-        <div class="bg-white rounded-lg p-6 w-[350px]">
-            <h2 class="text-lg font-semibold mb-4">Deseja excluir o usuário?</h2>
-            <div class="flex justify-end gap-4">
-                <button onclick="closeDeleteModal()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md">Cancelar</button>
+        <div class="bg-white rounded-lg p-4 w-[350px]">
+            <h1 class="text-lg font-semibold mb-4">Deseja excluir o usuário?</h2>
+            <div class="flex justify-center gap-4">
                 <form action="#" method="POST" id="deleteForm">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-md">Excluir</button>
+                    <button type="submit" class="bg-red-500 hover:bg-orange-400 transition-colors text-white text-[17px] overflow-hidden shadow-sm rounded-lg flex justify-between items-center px-4 py-2">Excluir</button>
                 </form>
+                <button onclick="closeDeleteModal()" class="bg-[#0571d3] hover:bg-orange-400 transition-colors text-white text-[17px] overflow-hidden shadow-sm rounded-lg flex justify-between items-center px-4 py-2">Cancelar</button>
             </div>
         </div>
     </div>

@@ -15,14 +15,14 @@
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-md rounded-lg flex justify-between items-center">
                 <div class="p-6 text-gray-900 text-lg">
-                    {{"Meu perfil"}}
+                    {{"Criar usuário"}}
                 </div>
             </div>
             <div class="py-6">
                 <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6 flex justify-center items-center flex-col">
                     @if($errors->any())
                         <x-safebank-alert-message>
-                            {{"Por favor, preencha todos os campos corretamente"}}
+                            {{$errors->first()}}
                         </x-safebank-alert-message>
                     @endif
                     <form action="{{route('manager-store-user')}}" method="POST" enctype="multipart/form-data" class="w-full flex flex-col items-center">
@@ -82,13 +82,21 @@
                                 <label for="birthdate">Data de nascimento</label>
                                 <input type="date" id="birthdate" name="birthdate" class="rounded-md">
                             </div>
-                            <div class="flex flex-col mb-6">
+                            <div class="flex flex-col">
                                 <label for="cpf">CPF</label>
                                 <input type="text" id="cpf" name="cpf" class="rounded-md">
                             </div>
-                            <div class="flex flex-col mb-6">
+                            <div class="flex flex-col">
                                 <label for="password">Senha do usuário</label>
                                 <input type="password" id="password" name="password" class="rounded-md">
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="agency">Agência da conta</label>
+                                <input type="number" id="agency" name="agency" class="rounded-md" maxlength="4" min="0000" max="9999">
+                            </div>
+                            <div class="flex flex-col mb-6">
+                                <label for="transferLimit">Limite de transferênia</label>
+                                <input type="number" id="transferLimit" name="transferLimit" step="0.01" class="rounded-md" maxlength="4">
                             </div>
                         </div>
                         <x-safebank-form-button>

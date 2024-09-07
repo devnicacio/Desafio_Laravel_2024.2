@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('number', 7)->unique();
             $table->double('balance')->default(0);
             $table->double('transferLimit');
-            $table->string('password');
         });
     }
 
