@@ -65,12 +65,12 @@
                     <img src="/images/safebank-delete-image.jpg" class="w-[180px]" alt="">
                 </div>
                 <div class="flex justify-center gap-4 mt-4">
+                    <button onclick="closeDeleteModal()" class="bg-[#0571d3] hover:bg-orange-400 transition-colors text-white text-[17px] overflow-hidden shadow-sm rounded-lg flex justify-between items-center px-4 py-2">Cancelar</button>
                     <form action="#" method="POST" id="deleteForm">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="bg-red-500 hover:bg-orange-400 transition-colors text-white text-[17px] overflow-hidden shadow-sm rounded-lg flex justify-between items-center px-4 py-2">Excluir</button>
                     </form>
-                    <button onclick="closeDeleteModal()" class="bg-[#0571d3] hover:bg-orange-400 transition-colors text-white text-[17px] overflow-hidden shadow-sm rounded-lg flex justify-between items-center px-4 py-2">Cancelar</button>
                 </div>
             </div>
         </div>
@@ -86,7 +86,6 @@
         function closeDeleteModal() {
             document.getElementById('deleteUser').classList.add('hidden');
             document.getElementById('deleteUser').classList.remove('flex');
-
         }
     </script>
 </x-app-layout>

@@ -342,4 +342,66 @@ class ManagerController extends Controller
 
         return redirect(route('manager-dashboard'));
     }
+
+    public function showDeposit()
+    {
+        $manager = Auth::guard('manager')->user();
+        $account = $manager->account()->first();
+
+        return view('manager.show-deposit', compact('account'));
+    }
+
+    public function storeDeposit(Request $request)
+    {
+        $manager = Auth::guard('manager')->user();
+        $accountManager = $manager->account()->first();
+
+        $request->validate([
+            'agency' => 'required|numeric|digits:4',
+            'number' => 'required|numeric|digits:7',
+            'value' => 'required|numeric',
+            'password' => 'required|string|max:255',
+        ]);
+
+        $users = $manager->users()->get();
+        $acchountChosen = null;
+
+        if($request->number == $accountManager->number)
+            $acchountChosen = $accountManager;
+        else{
+            foreach($users as $user){
+                $accountUser = $user->account()->first();
+                if(($accountUser->agency == $request->agency) && ($accountUser->number == $request->number))
+                    $acchountChosen = $accountUser;
+            }
+
+            if ($acchountChosen == null) {
+                return redirect()->back()->withErrors(['agency' => 'Os dados não correspondem à sua conta ou de seus usuários']);
+            }
+        }
+            
+
+        if (!(Hash::check($request->password, $manager->password))) {
+            return redirect()->back()->withErrors(['password' => 'Senha incorreta.']);
+        }
+
+        $value = (double) $request->value;
+            
+        $acchountChosen->update([
+            'balance' => $acchountChosen->balance += $value
+        ]);
+
+        $date = Carbon::now()->format('Y-m-d H:i:s');
+        Transfer::create([
+            'title' => "Depósito",
+            'senderAccount' => null,
+            'recipientAccount' => $acchountChosen->number,
+            'value' => $value,
+            'date' => $date
+        ]);
+
+        $request->session()->flash('msg', "Depósito realizado com sucesso!");
+
+        return redirect(route('manager-dashboard'));
+    }
 }

@@ -28,7 +28,7 @@
                     <i class="bi bi-cash-stack" style="font-size:35px; color:white"></i>
                 </x-safebank-link-button>
 
-                <x-safebank-link-button route="manager-user-list">
+                <x-safebank-link-button route="manager-show-deposit">
                     <p>Depósito</p>
                     <i class="bi bi-piggy-bank-fill" style="font-size:35px; color:white"></i>
                 </x-safebank-link-button>
