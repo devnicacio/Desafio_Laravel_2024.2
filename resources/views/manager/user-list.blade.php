@@ -58,15 +58,20 @@
         </div>
     </div>
     <div id="deleteUser" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
-        <div class="bg-white rounded-lg p-4 w-[350px]">
+        <div class="bg-white rounded-lg p-4 w-[380px]">
             <h1 class="text-lg font-semibold mb-4">Deseja excluir o usuário?</h2>
-            <div class="flex justify-center gap-4">
-                <form action="#" method="POST" id="deleteForm">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="bg-red-500 hover:bg-orange-400 transition-colors text-white text-[17px] overflow-hidden shadow-sm rounded-lg flex justify-between items-center px-4 py-2">Excluir</button>
-                </form>
-                <button onclick="closeDeleteModal()" class="bg-[#0571d3] hover:bg-orange-400 transition-colors text-white text-[17px] overflow-hidden shadow-sm rounded-lg flex justify-between items-center px-4 py-2">Cancelar</button>
+            <div class="flex flex-col justify-center">
+                <div class="flex justify-center w-full mt-2 mb-4">
+                    <img src="/images/safebank-delete-image.jpg" class="w-[180px]" alt="">
+                </div>
+                <div class="flex justify-center gap-4 mt-4">
+                    <form action="#" method="POST" id="deleteForm">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-red-500 hover:bg-orange-400 transition-colors text-white text-[17px] overflow-hidden shadow-sm rounded-lg flex justify-between items-center px-4 py-2">Excluir</button>
+                    </form>
+                    <button onclick="closeDeleteModal()" class="bg-[#0571d3] hover:bg-orange-400 transition-colors text-white text-[17px] overflow-hidden shadow-sm rounded-lg flex justify-between items-center px-4 py-2">Cancelar</button>
+                </div>
             </div>
         </div>
     </div>

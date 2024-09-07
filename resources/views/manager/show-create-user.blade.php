@@ -27,7 +27,6 @@
                     @endif
                     <form action="{{route('manager-store-user')}}" method="POST" enctype="multipart/form-data" class="w-full flex flex-col items-center">
                         @csrf
-                        @method('PUT')
                         <label for="photo" class="relative rounded-full overflow-hidden cursor-pointer">
                             <img id="photo-preview" src="/images/safebank-default-profile-photo.png" class="object-cover w-32 h-32">
                             <input type="file" id="photo" name="photo" class="hidden" accept="image/*" onchange="previewPhoto(event)">
@@ -96,7 +95,7 @@
                             </div>
                             <div class="flex flex-col mb-6">
                                 <label for="transferLimit">Limite de transferênia</label>
-                                <input type="number" id="transferLimit" name="transferLimit" step="0.01" class="rounded-md" maxlength="4">
+                                <input type="number" id="transferLimit" name="transferLimit" step="0.01" class="rounded-md">
                             </div>
                         </div>
                         <x-safebank-form-button>

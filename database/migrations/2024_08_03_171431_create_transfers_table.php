@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('transfers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('senderAccount')->constrained('accounts');
-            $table->foreignId('recipientAccount')->constrained('accounts');
+            $table->string('title');
+            $table->string('senderAccount', 7)->nullable();
+            $table->string('recipientAccount', 7)->nullable();
             $table->double('value');
             $table->date('date');
         });

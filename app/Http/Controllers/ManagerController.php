@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Address;
+use App\Models\Transfer;
 use App\Models\User;
 use Auth;
 use Carbon\Carbon;
@@ -40,7 +41,9 @@ class ManagerController extends Controller
         $account = $manager->account()->first();
         $address = $user->address()->first();
 
-        return view('manager.show-user', compact('manager', 'account', 'address', 'user'));
+        $accountUser = $user->account()->first();
+
+        return view('manager.show-user', compact('manager', 'account', 'address', 'user', 'accountUser'));
     }
 
     public function showEditUser(User $user)
@@ -49,7 +52,9 @@ class ManagerController extends Controller
         $account = $manager->account()->first();
         $address = $user->address()->first();
 
-        return view('manager.show-edit-user', compact('manager', 'account', 'address', 'user'));
+        $accountUser = $user->account()->first();
+
+        return view('manager.show-edit-user', compact('manager', 'account', 'address', 'user', 'accountUser'));
     }
 
     public function showEditManager()
@@ -62,11 +67,12 @@ class ManagerController extends Controller
 
     public function updateManager(Request $request)
     {
+        $manager = Auth::guard('manager')->user();
         $validAge = Carbon::now()->subYears(18)->format('d/m/Y');
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|max:255|unique:managers,email,' . $manager->id,
             'country' => 'required|string|max:255',
             'postalCode' => 'required|string|max:255',
             'state' => 'required|string|max:255',
@@ -75,16 +81,15 @@ class ManagerController extends Controller
             'street' => 'required|string|max:255',
             'number' => 'required|integer|min:1',
             'complement' => 'nullable|string|max:255',
-            'phoneNumber'=> 'required|string|max:255',
+            'phoneNumber'=> 'required|string|max:255|unique:managers,phoneNumber,' . $manager->id,
             'birthdate' => 'required|date|before:' . $validAge,
-            'cpf' => 'required|string|max:255',
-            'photo' => 'required|image|max:255',
+            'cpf' => 'required|string|max:255|unique:managers,cpf,' . $manager->id,
+            'photo' => 'nullable|image|max:255',
             'password' => 'nullable|string|max:255'
         ],[
             'birthdate.before' => "O usuário precisa ter mais de 18 anos."
         ]);
 
-        $manager = Auth::guard('manager')->user();
         $address = $manager->address()->first();
 
         if($request->file('photo'))
@@ -129,7 +134,7 @@ class ManagerController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
             'country' => 'required|string|max:255',
             'postalCode' => 'required|regex:/^[0-9\-]+$/|max:255',
             'state' => 'required|string|max:255',
@@ -138,16 +143,18 @@ class ManagerController extends Controller
             'street' => 'required|string|max:255',
             'number' => 'required|integer|min:1',
             'complement' => 'nullable|string|max:255',
-            'phoneNumber'=> 'required|string|max:255',
+            'phoneNumber'=> 'required|string|max:255|unique:users,phoneNumber,' . $user->id,
             'birthdate' => 'required|date|before:' . $validAge,
-            'cpf' => 'required|string|max:255',
+            'cpf' => 'required|string|max:255|unique:users,cpf,' . $user->id,
             'photo' => 'nullable|image|max:255',
+            'transferLimit' => 'required|max:255',
             'password' => 'nullable|string|max:255'
         ],[
-            'birthdate.before' => "O usuário precisa ter mais de 18 anos."
+            'birthdate.before' => "O usuário precisa ter mais de 18 anos.",
         ]);
 
         $address = $user->address()->first();
+        $account = $user->account()->first();
 
         if($request->file('photo')){
             unlink(public_path($user->photo));
@@ -172,6 +179,10 @@ class ManagerController extends Controller
             'complement' => $request->complement,
         ]);
 
+        $account->update([
+            'transferLimit' => $request->transferLimit,
+        ]);
+
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
@@ -192,7 +203,12 @@ class ManagerController extends Controller
         if($user->photo != 'images/safebank-default-profile-photo.png')
             unlink(public_path($user->photo));
         
+        $address = $user->address()->first();
+        $account = $user->account()->first();
+
         $user->delete();
+        $address->delete();
+        $account->delete();
 
         $request->session()->flash('msg', "Usuário excluído com sucesso!");
 
@@ -213,7 +229,7 @@ class ManagerController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
             'country' => 'required|string|max:255',
             'postalCode' => 'required|regex:/^[0-9\-]+$/|max:255',
             'state' => 'required|string|max:255',
@@ -222,9 +238,9 @@ class ManagerController extends Controller
             'street' => 'required|string|max:255',
             'number' => 'required|integer|min:1',
             'complement' => 'nullable|string|max:255',
-            'phoneNumber'=> 'required|string|max:255',
+            'phoneNumber'=> 'required|string|max:255|unique:users,phoneNumber',
             'birthdate' => 'required|date|before:' . $validAge,
-            'cpf' => 'required|string|max:255',
+            'cpf' => 'required|string|max:255|unique:users,cpf',
             'photo' => 'nullable|image|max:255',
             'password' => 'required|string|max:255',
             'agency' => 'required|integer|digits:4',
@@ -279,5 +295,51 @@ class ManagerController extends Controller
         $request->session()->flash('msg', "Usuário criado com sucesso!");
 
         return redirect(route('manager-user-list'));
+    }
+
+    public function showWithdraw()
+    {
+        $manager = Auth::guard('manager')->user();
+        $account = $manager->account()->first();
+
+        return view('manager.show-withdraw', compact('account'));
+    }
+
+    public function storeWithdraw(Request $request)
+    {
+        $manager = Auth::guard('manager')->user();
+
+        $request->validate([
+            'value' => 'required|numeric',
+            'password' => 'required|string|max:255',
+        ]);
+
+        if (!(Hash::check($request->password, $manager->password))) {
+            return redirect()->back()->withErrors(['password' => 'Senha incorreta.']);
+        }
+
+        $account = $manager->account()->first();
+
+        $value = (double) $request->value;
+
+        if($value > $account->balance)
+            return redirect()->back()->withErrors(['value' => 'Saque acima do saldo da conta.']);
+            
+        $account->update([
+            'balance' => $account->balance -= $value
+        ]);
+
+        $date = Carbon::now()->format('Y-m-d H:i:s');
+        Transfer::create([
+            'title' => "Saque",
+            'senderAccount' => $account->number,
+            'recipientAccount' => null,
+            'value' => $value,
+            'date' => $date
+        ]);
+        
+        $request->session()->flash('msg', "Saque realizado com sucesso!");
+
+        return redirect(route('manager-dashboard'));
     }
 }

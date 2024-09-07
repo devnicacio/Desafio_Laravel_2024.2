@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Transfer extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'senderAccount',
+        'recipientAccount',
+        'value',
+        'date'
+    ];
+
+    public $timestamps = false;
+
 }

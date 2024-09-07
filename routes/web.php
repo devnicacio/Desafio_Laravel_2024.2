@@ -27,11 +27,15 @@ Route::middleware('manager')->group(function () {
     Route::get('/manager-show-edit-user/{user}', [ManagerController::class, 'showEditUser'])->name('manager-show-edit');
     Route::get('/manager-show-create-user', [ManagerController::class, 'showCreateUser'])->name('manager-show-create-user');
     Route::get('/manager-show-edit-manager', [ManagerController::class, 'showEditManager'])->name('manager-show-edit-manager');
+    Route::get('/manager-show-withdraw', [ManagerController::class, 'showWithdraw'])->name('manager-show-withdraw');
 
     Route::put('/manager-update-manager', [ManagerController::class, 'updateManager'])->name('manager-update-manager');
     Route::put('/manager-update-user/{user}', [ManagerController::class, 'updateUser'])->name('manager-update-user');
     Route::delete('/manager-delete-user/{user}', [ManagerController::class, 'deleteUser'])->name('manager-delete-user');
-    Route::put('/manager-store-user', [ManagerController::class, 'storeUser'])->name('manager-store-user');
+    Route::post('/manager-store-user', [ManagerController::class, 'storeUser'])->name('manager-store-user');
+    Route::post('/manager-store-user', [ManagerController::class, 'storeUser'])->name('manager-store-user');
+    Route::post('/manager-store-withdraw', [ManagerController::class, 'storeWithdraw'])->name('manager-store-withdraw');
+
 });
 
 Route::middleware('auth')->group(function () {

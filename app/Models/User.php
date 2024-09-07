@@ -31,7 +31,7 @@ class User extends Authenticatable
     public $timestamps = false;
 
     public function account() {
-        return $this->belongsTo(Account::class);
+        return $this->belongsTo(Account::class, 'account');
     }
 
     public function address()

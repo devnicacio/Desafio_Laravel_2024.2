@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->foreignId('address')->constrained('addresses')->onDelete('cascade');;
+            $table->foreignId('address')->constrained('addresses');
             $table->string('phoneNumber')->unique();
             $table->date('birthdate');
             $table->string('cpf')->unique();
