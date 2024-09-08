@@ -17,7 +17,8 @@ class ManagerPendencie extends Model
         'recipientAccount',
         'value',
         'date',
-        'admin'
+        'admin',
+        'status'
     ];
 
     public $timestamps = false;

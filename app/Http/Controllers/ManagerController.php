@@ -454,7 +454,7 @@ class ManagerController extends Controller
                 'date' => $date,
                 'admin' => $admin->id
             ]);
-            $request->session()->flash('msg', "Pendência gerada com sucesso (transferência acima do limite), aguarde a aprovação do admin");
+            $request->session()->flash('msg', "Pendência gerada com sucesso (transferência acima do limite), aguarde a aprovação do admin. As informações para contato do admin são e-mail: $admin->email e telefone: $admin->phoneNumber");
         }
         else{
             $senderAccount->update([
@@ -474,6 +474,90 @@ class ManagerController extends Controller
             ]);
             $request->session()->flash('msg', "Transferência realizada com sucesso!");
         }
+
+        return redirect(route('manager-dashboard'));
+    }
+
+    public function showLoan()
+    {
+        $manager = Auth::guard('manager')->user();
+        $account = $manager->account()->first();
+
+        $approvedLoan = ManagerPendencie::where('title', "Empréstimo")->where('recipientAccount', $account->number)->where('status', 1)->first();
+
+        return view('manager.show-loan', compact('account', 'approvedLoan'));
+    }
+
+    public function storeLoan(Request $request)
+    {
+        $manager = Auth::guard('manager')->user();
+        $recipientAccount = $manager->account()->first();
+
+        $request->validate([
+            'value' => 'required|numeric',
+            'password' => 'required|string|max:255',
+        ]);
+
+        if (!(Hash::check($request->password, $manager->password))) {
+            return redirect()->back()->withErrors(['password' => 'Senha incorreta.']);
+        }
+
+        $haveLoan = ManagerPendencie::where('title', "Empréstimo")->where('recipientAccount', $recipientAccount->number)->where('status', 0)->first();
+        $admin = $manager->admin()->first();
+
+        if(!empty($haveLoan))
+            return redirect()->back()->withErrors(['value' => "Você já tem um empréstimo em aberto, aguarde a aprovação pelo administrador. Os dados para contato do administrador são email: $admin->email e telefone: $admin->phoneNumber"]);
+
+        $value = (double) $request->value;
+        $date = Carbon::now()->format('Y-m-d H:i:s');
+
+        ManagerPendencie::create([
+            'title' =>  "Empréstimo",
+            'senderAccount' => null,
+            'recipientAccount' => $recipientAccount->number,
+            'value' => $value,
+            'date' => $date,
+            'admin' => $admin->id
+        ]);
+
+        $request->session()->flash('msg', "Pedido de empréstimo realizado com sucesso! Aguarde a aprovação pelo administrador. Os dados para contato do administrador são email: $admin->email e telefone: $admin->phoneNumber");
+
+        return redirect(route('manager-dashboard'));
+    }
+
+    public function payLoan(Request $request)
+    {
+        $manager = Auth::guard('manager')->user();
+        $account = $manager->account()->first();
+        $approvedLoan = ManagerPendencie::where('title', "Empréstimo")->where('recipientAccount', $account->number)->where('status', 1)->first();
+
+        $request->validate([
+            'password' => 'required|string|max:255',
+        ]);
+
+        if($approvedLoan->value > $account->balance)
+            return redirect()->back()->withErrors(['value' => 'Saldo insuficiente.']);
+
+        if (!(Hash::check($request->password, $manager->password))) {
+            return redirect()->back()->withErrors(['password' => 'Senha incorreta.']);
+        }
+
+        $account->update([
+            'balance' => $account->balance -= $approvedLoan->value
+        ]);
+
+        $date = Carbon::now()->format('Y-m-d H:i:s');
+        Transfer::create([
+            'title' => "Pagamento de empréstimo",
+            'senderAccount' => null,
+            'recipientAccount' => $account->number,
+            'value' => $approvedLoan->value,
+            'date' => $date
+        ]);
+
+        $approvedLoan->delete();
+
+        $request->session()->flash('msg', "Saque realizado com sucesso!");
 
         return redirect(route('manager-dashboard'));
     }

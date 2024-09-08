@@ -86,9 +86,13 @@
                                 <label for="birthdate">Data de nascimento</label>
                                 <input type="date" id="birthdate" name="birthdate" value="{{$user->birthdate->format('Y-m-d')}}" class="rounded-md">
                             </div>
-                            <div class="flex flex-col mb-6">
+                            <div class="flex flex-col">
                                 <label for="cpf">CPF</label>
                                 <input type="text" id="cpf" name="cpf" value="{{$user->cpf}}" class="rounded-md">
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="admin">Administrador responsável</label>
+                                <input type="text" id="admin" name="admin" value="{{($user->admin()->first())->name}}" class="rounded-md" step="0.01">
                             </div>
                             <div class="flex flex-col mb-6">
                                 <label for="password">Senha</label>

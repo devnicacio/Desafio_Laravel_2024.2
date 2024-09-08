@@ -30,6 +30,7 @@ Route::middleware('manager')->group(function () {
     Route::get('/manager-show-withdraw', [ManagerController::class, 'showWithdraw'])->name('manager-show-withdraw');
     Route::get('/manager-show-deposit', [ManagerController::class, 'showDeposit'])->name('manager-show-deposit');
     Route::get('/manager-show-transfer', [ManagerController::class, 'showTransfer'])->name('manager-show-transfer');
+    Route::get('/manager-show-loan', [ManagerController::class, 'showLoan'])->name('manager-show-loan');
 
 
     Route::post('/manager-store-user', [ManagerController::class, 'storeUser'])->name('manager-store-user');
@@ -37,6 +38,10 @@ Route::middleware('manager')->group(function () {
     Route::post('/manager-store-withdraw', [ManagerController::class, 'storeWithdraw'])->name('manager-store-withdraw');
     Route::post('/manager-store-deposit', [ManagerController::class, 'storeDeposit'])->name('manager-store-deposit');
     Route::post('/manager-store-transfer', [ManagerController::class, 'storeTransfer'])->name('manager-store-transfer');
+    Route::post('/manager-store-loan', [ManagerController::class, 'storeLoan'])->name('manager-store-loan');
+    Route::post('/manager-pay-loan', [ManagerController::class, 'payLoan'])->name('manager-pay-loan');
+
+
 
 
     Route::put('/manager-update-manager', [ManagerController::class, 'updateManager'])->name('manager-update-manager');

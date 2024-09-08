@@ -38,7 +38,7 @@
                     <i class="bi bi-arrow-left-right" style="font-size:35px; color:white"></i>
                 </x-safebank-link-button>
 
-                <x-safebank-link-button route="manager-user-list">
+                <x-safebank-link-button route="manager-show-loan">
                     <p>Pedir empréstimo</p>
                     <i class="bi bi-cash-coin" style="font-size:35px; color:white"></i>
                 </x-safebank-link-button>

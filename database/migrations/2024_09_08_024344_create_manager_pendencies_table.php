@@ -19,6 +19,7 @@ return new class extends Migration
             $table->double('value');
             $table->date('date');
             $table->foreignId('admin')->constrained('admins');
+            $table->boolean('status')->default(false);
         });
     }
 
