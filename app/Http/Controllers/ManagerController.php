@@ -436,7 +436,7 @@ class ManagerController extends Controller
             return redirect()->back()->withErrors(['number' => 'Você não pode realizar transferência para sua própria conta']);
 
         if($value > $senderAccount->balance)
-            return redirect()->back()->withErrors(['value' => 'ransferência acima do saldo da conta.']);
+            return redirect()->back()->withErrors(['value' => 'Transferência acima do saldo da conta.']);
         
         if (!(Hash::check($request->password, $manager->password))) {
             return redirect()->back()->withErrors(['password' => 'Senha incorreta.']);
@@ -560,5 +560,58 @@ class ManagerController extends Controller
         $request->session()->flash('msg', "Saque realizado com sucesso!");
 
         return redirect(route('manager-dashboard'));
+    }
+
+    public function showPendencies(Request $request)
+    {
+        $manager = Auth::guard('manager')->user();
+        $account = $manager->account()->first();
+
+        $pendencies = $manager->pendencies()->get();
+        $transferPendencies = $pendencies->where('title', "Transferência");
+
+        $msg = $request->session()->get('msg');
+
+        return view('manager.show-pendencies', compact('account', 'transferPendencies', 'msg', 'manager'));
+    }
+
+    public function acceptPendencie(UserPendencie $transferPendencie, Request $request)
+    {
+        $senderAccount = Account::where('number', $transferPendencie->senderAccount)->first();
+        $recipientAccount = Account::where('number', $transferPendencie->recipientAccount)->first();
+        $value = $transferPendencie->value;
+
+        $date = Carbon::now()->format('Y-m-d H:i:s');
+    
+        $senderAccount->update([
+            'balance' => $senderAccount->balance -= $value
+        ]);
+
+        $recipientAccount->update([
+            'balance' => $recipientAccount->balance += $value
+        ]);
+
+        Transfer::create([
+            'title' => "Transferência",
+            'senderAccount' => $senderAccount->number,
+            'recipientAccount' => $recipientAccount->number,
+            'value' => $value,
+            'date' => $date
+        ]);
+
+        $transferPendencie->delete();
+
+        $request->session()->flash('msg', "Transferência aceita com sucesso!");
+
+        return redirect(route('manager-show-pendencies'));
+    }
+
+    public function denyPendencie(UserPendencie $transferPendencie, Request $request)
+    {
+        $transferPendencie->delete();
+
+        $request->session()->flash('msg', "Transferência recusada com sucesso!");
+
+        return redirect(route('manager-show-pendencies'));
     }
 }
