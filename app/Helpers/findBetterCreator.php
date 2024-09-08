@@ -57,3 +57,22 @@ if(!function_exists('betterManagerForCommonUsers')){
         return $managerChosen->id;
     }
 }
+
+if(!function_exists('betterManagerForCommonUsersExclusive')){
+    function betterManagerForCommonUsersExclusive($managerId) {
+        $managers = Manager::where('id', '!=', $managerId);
+        $managerChosen = $managers->first();
+        $minor = $managerChosen->users()->count();
+        
+        foreach($managers as $manager){
+            $minorTest = $manager->users()->count();
+
+            if($minorTest < $minor){
+                $minor = $minorTest;
+                $managerChosen = $manager;
+            }
+        }
+
+        return $managerChosen->id;
+    }
+}

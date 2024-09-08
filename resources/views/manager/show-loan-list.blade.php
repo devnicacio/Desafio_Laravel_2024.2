@@ -43,6 +43,7 @@
                         $recipientAccount = \App\Models\Account::where('number', $loan->recipientAccount)->first();
                         $user = \App\Models\User::where('account', $recipientAccount->id)->first();
                         $address = $user->address()->first();
+                        
                     @endphp
                     <div class="bg-white overflow-hidden rounded-lg grid grid-cols-3 gap-4 mt-4 shadow-sm p-4 mb-2">
                         <div class="flex justify-center items-center">

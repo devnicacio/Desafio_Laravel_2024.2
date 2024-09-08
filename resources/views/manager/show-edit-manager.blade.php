@@ -103,6 +103,13 @@
                             {{"Salvar"}}
                         </x-safebank-form-button>
                     </form>
+                    <form action="{{route('manager-delete-manager')}}" method="POST" id="deleteForm" class="mt-4">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-red-500 hover:bg-orange-400 transition-colors text-white text-[17px] overflow-hidden shadow-sm rounded-lg flex justify-between items-center px-4 py-2">
+                            Excluir conta
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

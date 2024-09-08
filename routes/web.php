@@ -51,6 +51,8 @@ Route::middleware('manager')->group(function () {
     Route::delete('/manager-accept-pendencie/{transferPendencie}', [ManagerController::class, 'acceptPendencie'])->name('manager-accept-pendencie');
     Route::delete('/manager-deny-pendencie/{transferPendencie}', [ManagerController::class, 'denyPendencie'])->name('manager-deny-pendencie');
     Route::delete('/manager-deny-loan/{loan}', [ManagerController::class, 'denyLoan'])->name('manager-deny-loan');
+    Route::delete('/manager-delete-manager', [ManagerController::class, 'deleteManager'])->name('manager-delete-manager');
+
 });
 
 Route::middleware('auth')->group(function () {

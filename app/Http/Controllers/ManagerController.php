@@ -130,6 +130,48 @@ class ManagerController extends Controller
         return redirect(route('manager-dashboard'));
     }
 
+    public function deleteManager()
+    {
+        $manager = Auth::guard('manager')->user();
+    
+        $address = $manager->address()->first();
+        $account = $manager->account()->first();
+
+        $managerPendencies = ManagerPendencie::where('senderAccount', $account->number)->orWhere('recipientAccount', $account->number)->get();
+        $usersPendencies = $manager->pendencies()->get();
+
+        if(!empty($managerPendencies)){
+            foreach($managerPendencies as $pendencie){
+                $pendencie->delete();
+            }
+        }
+
+        if(!empty($usersPendencies)){
+            foreach($usersPendencies as $pendencie){
+                $pendencie->delete();
+            }
+        }
+
+        $users = $manager->users()->get();
+
+        if(!empty($users)){
+            foreach($users as $commonUser){
+                $commonUser->update([
+                    'manager' => betterManagerForCommonUsersExclusive($manager->id)
+                ]);
+            }
+        }
+
+        if($manager->photo != 'images/safebank-default-profile-photo.png')
+            unlink(public_path($manager->photo));
+
+        $manager->delete();
+        $address->delete();
+        $account->delete();
+
+        return redirect('/');
+    }
+
     public function updateUser(User $user, Request $request)
     {
         $validAge = Carbon::now()->subYears(18)->format('d/m/Y');
@@ -207,6 +249,21 @@ class ManagerController extends Controller
         
         $address = $user->address()->first();
         $account = $user->account()->first();
+
+        $managerPendencies = ManagerPendencie::where('senderAccount', $account->number)->orWhere('recipientAccount', $account->number)->get();
+        $usersPendencies = UserPendencie::where('senderAccount', $account->number)->orWhere('recipientAccount', $account->number)->get();
+
+        if(!empty($managerPendencies)){
+            foreach($managerPendencies as $pendencie){
+                $pendencie->delete();
+            }
+        }
+
+        if(!empty($usersPendencies)){
+            foreach($usersPendencies as $pendencie){
+                $pendencie->delete();
+            }
+        }
 
         $user->delete();
         $address->delete();
