@@ -614,4 +614,37 @@ class ManagerController extends Controller
 
         return redirect(route('manager-show-pendencies'));
     }
+
+    public function showLoans(Request $request)
+    {
+        $manager = Auth::guard('manager')->user();
+        $account = $manager->account()->first();
+
+        $loans = $manager->pendencies()->get();
+        $loanlist = $loans->where('title', "Empréstimo")->where('status', 0);
+
+        $msg = $request->session()->get('msg');
+
+        return view('manager.show-loan-list', compact('account', 'loanlist', 'msg', 'manager'));
+    }
+
+    public function acceptLoan(UserPendencie $loan, Request $request)
+    {
+        $loan->update([
+            'status' => 1
+        ]);
+
+        $request->session()->flash('msg', "Empréstimo aceito com sucesso!");
+
+        return redirect(route('manager-show-loans'));
+    }
+
+    public function denyLoan(UserPendencie $loan, Request $request)
+    {
+        $loan->delete();
+
+        $request->session()->flash('msg', "Empréstimo recusado com sucesso!");
+
+        return redirect(route('manager-show-loans'));
+    }
 }

@@ -32,6 +32,7 @@ Route::middleware('manager')->group(function () {
     Route::get('/manager-show-transfer', [ManagerController::class, 'showTransfer'])->name('manager-show-transfer');
     Route::get('/manager-show-loan', [ManagerController::class, 'showLoan'])->name('manager-show-loan');
     Route::get('/manager-show-pendencies', [ManagerController::class, 'showPendencies'])->name('manager-show-pendencies');
+    Route::get('/manager-show-loans', [ManagerController::class, 'showLoans'])->name('manager-show-loans');
 
     Route::post('/manager-store-user', [ManagerController::class, 'storeUser'])->name('manager-store-user');
     Route::post('/manager-store-user', [ManagerController::class, 'storeUser'])->name('manager-store-user');
@@ -40,6 +41,7 @@ Route::middleware('manager')->group(function () {
     Route::post('/manager-store-transfer', [ManagerController::class, 'storeTransfer'])->name('manager-store-transfer');
     Route::post('/manager-store-loan', [ManagerController::class, 'storeLoan'])->name('manager-store-loan');
     Route::post('/manager-pay-loan', [ManagerController::class, 'payLoan'])->name('manager-pay-loan');
+    Route::post('/manager-accept-loan/{loan}', [ManagerController::class, 'acceptLoan'])->name('manager-accept-loan');
 
     Route::put('/manager-update-manager', [ManagerController::class, 'updateManager'])->name('manager-update-manager');
     Route::put('/manager-update-user/{user}', [ManagerController::class, 'updateUser'])->name('manager-update-user');
@@ -47,6 +49,7 @@ Route::middleware('manager')->group(function () {
     Route::delete('/manager-delete-user/{user}', [ManagerController::class, 'deleteUser'])->name('manager-delete-user');
     Route::delete('/manager-accept-pendencie/{transferPendencie}', [ManagerController::class, 'acceptPendencie'])->name('manager-accept-pendencie');
     Route::delete('/manager-deny-pendencie/{transferPendencie}', [ManagerController::class, 'denyPendencie'])->name('manager-deny-pendencie');
+    Route::delete('/manager-deny-loan/{loan}', [ManagerController::class, 'denyLoan'])->name('manager-deny-loan');
 });
 
 Route::middleware('auth')->group(function () {
