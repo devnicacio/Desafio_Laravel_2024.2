@@ -630,6 +630,12 @@ class ManagerController extends Controller
 
     public function acceptLoan(UserPendencie $loan, Request $request)
     {
+        $account = Account::where('number', $loan->recipientAccount)->first();
+
+        $account->update([
+            'balance' => $account->balance += $loan->value
+        ]);
+
         $loan->update([
             'status' => 1
         ]);
@@ -646,5 +652,15 @@ class ManagerController extends Controller
         $request->session()->flash('msg', "Empréstimo recusado com sucesso!");
 
         return redirect(route('manager-show-loans'));
+    }
+
+    public function showStatement(Request $request)
+    {
+        $manager = Auth::guard('manager')->user();
+        $account = $manager->account()->first();
+        $transfers = Transfer::where('senderAccount', $account->number)->orWhere('recipientAccount', $account->number)->get();
+        $msg = $request->session()->get('msg');
+
+        return view('manager.show-statements', compact('account', 'transfers', 'msg'));
     }
 }

@@ -24,17 +24,17 @@
                 </div>
             </div>
             <div class="bg-white overflow-hidden rounded-lg grid grid-cols-4 gap-4 mt-4 shadow-sm">
-                <div class="flex justify-center">
-                    <p class="px-6 py-4 text-lg">Cliente</p>
+                <div class="flex justify-center text-sm md:text-lg">
+                    <p class="px-6 py-4">Cliente</p>
                 </div>
-                <div class="flex justify-center">
-                    <p class="px-6 py-4 text-lg">Limite de Transferência</p>
+                <div class="flex justify-center text-sm md:text-lg">
+                    <p class="px-6 py-4">Limite de Transferência</p>
                 </div>
-                <div class="flex justify-center">
-                    <p class="px-6 py-4 text-lg">Valor</p>
+                <div class="flex justify-center text-sm md:text-lg">
+                    <p class="px-6 py-4">Valor</p>
                 </div>
-                <div class="flex justify-center">
-                    <p class="px-6 py-4 text-lg">Ações</p>
+                <div class="flex justify-center text-sm md:text-lg">
+                    <p class="px-6 py-4">Ações</p>
                 </div>
             </div>
             <div>
@@ -48,17 +48,17 @@
                         $address = $user->address()->first();
                     @endphp
                     <div class="bg-white overflow-hidden rounded-lg grid grid-cols-4 gap-4 mt-4 shadow-sm p-4 mb-2">
-                        <div class="flex justify-center items-center">
+                        <div class="flex justify-center items-center text-sm md:text-base">
                             <button onclick="openUserModal('userModal-{{$transferPendencie->id}}')">
                                 <p class="text-[#0571d3] hover:text-orange-400 transition-colors">
                                     {{ $user->name }}
                                 </p>
                             </button>
                         </div>
-                        <div class="flex justify-center items-center">
+                        <div class="flex justify-center items-center text-sm md:text-base">
                             <p>{{ "R$ " . number_format($senderAccount->transferLimit, 2, ',', '.') }}</p>
                         </div>
-                        <div class="flex justify-center items-center">
+                        <div class="flex justify-center items-center text-sm md:text-base">
                             <p>{{ "R$ " . number_format($transferPendencie->value, 2, ',', '.') }}</p>
                         </div>
                         <div class="flex gap-2 ml-4 justify-center items-center">

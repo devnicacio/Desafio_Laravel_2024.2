@@ -19,4 +19,8 @@ class Transfer extends Model
 
     public $timestamps = false;
 
+    protected $casts = [
+        'date' => 'date'
+    ];
+
 }

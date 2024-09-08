@@ -33,6 +33,7 @@ Route::middleware('manager')->group(function () {
     Route::get('/manager-show-loan', [ManagerController::class, 'showLoan'])->name('manager-show-loan');
     Route::get('/manager-show-pendencies', [ManagerController::class, 'showPendencies'])->name('manager-show-pendencies');
     Route::get('/manager-show-loans', [ManagerController::class, 'showLoans'])->name('manager-show-loans');
+    Route::get('/manager-show-statement', [ManagerController::class, 'showstatement'])->name('manager-show-statement');
 
     Route::post('/manager-store-user', [ManagerController::class, 'storeUser'])->name('manager-store-user');
     Route::post('/manager-store-user', [ManagerController::class, 'storeUser'])->name('manager-store-user');
