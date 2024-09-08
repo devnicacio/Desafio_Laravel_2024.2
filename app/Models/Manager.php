@@ -31,7 +31,7 @@ class Manager extends Authenticatable
 
     public function admin()
     {
-        return $this->belongsTo(Admin::class);
+        return $this->belongsTo(Admin::class, 'admin');
     }
 
     public function users()

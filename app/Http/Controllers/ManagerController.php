@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Address;
+use App\Models\ManagerPendencie;
 use App\Models\Transfer;
 use App\Models\User;
+use App\Models\UserPendencie;
 use Auth;
 use Carbon\Carbon;
 use Hash;
@@ -378,8 +380,7 @@ class ManagerController extends Controller
             if ($acchountChosen == null) {
                 return redirect()->back()->withErrors(['agency' => 'Os dados não correspondem à sua conta ou de seus usuários']);
             }
-        }
-            
+        }  
 
         if (!(Hash::check($request->password, $manager->password))) {
             return redirect()->back()->withErrors(['password' => 'Senha incorreta.']);
@@ -401,6 +402,78 @@ class ManagerController extends Controller
         ]);
 
         $request->session()->flash('msg', "Depósito realizado com sucesso!");
+
+        return redirect(route('manager-dashboard'));
+    }
+
+    public function showTransfer()
+    {
+        $manager = Auth::guard('manager')->user();
+        $account = $manager->account()->first();
+
+        return view('manager.show-transfer', compact('account'));
+    }
+
+    public function storeTransfer(Request $request)
+    {
+        $manager = Auth::guard('manager')->user();
+        $senderAccount = $manager->account()->first();
+
+        $request->validate([
+            'agency' => 'required|numeric|digits:4',
+            'number' => 'required|numeric|digits:7',
+            'value' => 'required|numeric',
+            'password' => 'required|string|max:255',
+        ]);
+
+        $recipientAccount = Account::where('number', $request->number)->first();
+        $value = (double) $request->value;
+
+        if(empty($recipientAccount))
+            return redirect()->back()->withErrors(['number' => 'Conta não encontrada, verifique os dados informados']);
+
+        if($recipientAccount->number == $senderAccount->number)
+            return redirect()->back()->withErrors(['number' => 'Você não pode realizar transferência para sua própria conta']);
+
+        if($value > $senderAccount->balance)
+            return redirect()->back()->withErrors(['value' => 'ransferência acima do saldo da conta.']);
+        
+        if (!(Hash::check($request->password, $manager->password))) {
+            return redirect()->back()->withErrors(['password' => 'Senha incorreta.']);
+        }
+
+        $date = Carbon::now()->format('Y-m-d H:i:s');
+        $admin = $manager->admin()->first();
+    
+        if($value > $senderAccount->transferLimit){
+            ManagerPendencie::create([
+                'title' =>  "Transferência",
+                'senderAccount' => $senderAccount->number,
+                'recipientAccount' => $recipientAccount->number,
+                'value' => $value,
+                'date' => $date,
+                'admin' => $admin->id
+            ]);
+            $request->session()->flash('msg', "Pendência gerada com sucesso (transferência acima do limite), aguarde a aprovação do admin");
+        }
+        else{
+            $senderAccount->update([
+                'balance' => $senderAccount->balance -= $value
+            ]);
+
+            $recipientAccount->update([
+                'balance' => $recipientAccount->balance += $value
+            ]);
+
+            Transfer::create([
+                'title' => "Transferência",
+                'senderAccount' => $senderAccount->number,
+                'recipientAccount' => $recipientAccount->number,
+                'value' => $value,
+                'date' => $date
+            ]);
+            $request->session()->flash('msg', "Transferência realizada com sucesso!");
+        }
 
         return redirect(route('manager-dashboard'));
     }

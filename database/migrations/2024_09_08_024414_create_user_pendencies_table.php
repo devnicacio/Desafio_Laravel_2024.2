@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pendencies', function (Blueprint $table) {
+        Schema::create('user_pendencies', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->foreignId('senderAccount')->constrained('accounts');
-            $table->foreignId('recipientAccount')->constrained('accounts')->nullable();
+            $table->string('senderAccount', 7)->nullable();
+            $table->string('recipientAccount', 7)->nullable();
             $table->double('value');
             $table->date('date');
-            $table->boolean('status')->default(false);
+            $table->foreignId('manager')->constrained('managers');
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pendencies');
+        Schema::dropIfExists('user_pendencies');
     }
 };
