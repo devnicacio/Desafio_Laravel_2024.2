@@ -792,4 +792,42 @@ class AdminController extends Controller
 
         return redirect(route('admin-show-pendencies'));
     }
+
+    public function showLoans(Request $request)
+    {
+        $admin = Auth::guard('admin')->user();
+
+        $loans = $admin->pendencies()->get();
+        $loanlist = $loans->where('title', "Empréstimo")->where('status', 0);
+
+        $msg = $request->session()->get('msg');
+
+        return view('admin.show-loan-list', compact('loanlist', 'msg', 'admin'));
+    }
+
+    public function acceptLoan(ManagerPendencie $loan, Request $request)
+    {
+        $account = Account::where('number', $loan->recipientAccount)->first();
+
+        $account->update([
+            'balance' => $account->balance += $loan->value
+        ]);
+
+        $loan->update([
+            'status' => 1
+        ]);
+
+        $request->session()->flash('msg', "Empréstimo aceito com sucesso!");
+
+        return redirect(route('admin-show-loans'));
+    }
+
+    public function denyLoan(ManagerPendencie $loan, Request $request)
+    {
+        $loan->delete();
+
+        $request->session()->flash('msg', "Empréstimo recusado com sucesso!");
+
+        return redirect(route('admin-show-loans'));
+    }
 }

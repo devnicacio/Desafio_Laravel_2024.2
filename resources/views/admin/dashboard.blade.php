@@ -33,7 +33,7 @@
                     <i class="bi bi-person-fill-exclamation" style="font-size:35px; color:white"></i>
                 </x-safebank-link-button>
 
-                <x-safebank-link-button route="manager-show-loans">
+                <x-safebank-link-button route="admin-show-loans">
                     <p>Empréstimos</p>
                     <i class="bi bi-list-ul" style="font-size:35px; color:white"></i>
                 </x-safebank-link-button>

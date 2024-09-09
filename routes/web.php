@@ -26,16 +26,17 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin-show-manager/{user}', [AdminController::class, 'showManager'])->name('admin-show-manager');
     Route::get('/admin-show-edit-manager/{user}', [AdminController::class, 'showEditManager'])->name('admin-show-edit-manager');
     Route::get('/admin-show-create-manager', [AdminController::class, 'showCreateManager'])->name('admin-show-create-manager');
-
     Route::get('/admin-show-admin-list', [AdminController::class, 'showAdminList'])->name('admin-show-admin-list');
     Route::get('/admin-show-admin/{user}', [AdminController::class, 'showAdmin'])->name('admin-show-admin');
     Route::get('/admin-show-edit-admin/{user}', [AdminController::class, 'showEditAdmin'])->name('admin-show-edit-admin');
     Route::get('/admin-show-create-admin', [AdminController::class, 'showCreateAdmin'])->name('admin-show-create-admin');
     Route::get('/admin-show-pendencies', [AdminController::class, 'showPendencies'])->name('admin-show-pendencies');
+    Route::get('/admin-show-loans', [AdminController::class, 'showLoans'])->name('admin-show-loans');
 
     Route::post('/admin-create-user', [AdminController::class, 'createUser'])->name('admin-create-user');
     Route::post('/admin-create-manager', [AdminController::class, 'createManager'])->name('admin-create-manager');
     Route::post('/admin-create-admin', [AdminController::class, 'createAdmin'])->name('admin-create-admin');
+    Route::post('/admin-accept-loan/{loan}', [AdminController::class, 'acceptLoan'])->name('admin-accept-loan');
     
     Route::put('/admin-update-profile', [AdminController::class, 'profileUpdate'])->name('admin-update-profile');
     Route::put('/admin-update-user/{user}', [AdminController::class, 'updateUser'])->name('admin-update-user');
@@ -50,7 +51,7 @@ Route::middleware('admin')->group(function () {
     Route::delete('/admin-delete-admin/{user}', [AdminController::class, 'deleteAdmin'])->name('admin-delete-admin');
     Route::delete('/admin-accept-pendencie/{transferPendencie}', [AdminController::class, 'acceptPendencie'])->name('admin-accept-pendencie');
     Route::delete('/admin-deny-pendencie/{transferPendencie}', [AdminController::class, 'denyPendencie'])->name('admin-deny-pendencie');
-    
+    Route::delete('/admin-deny-loan/{loan}', [AdminController::class, 'denyLoan'])->name('admin-deny-loan');
 });
 
 Route::middleware('manager')->group(function () {
