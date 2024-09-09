@@ -6,7 +6,7 @@
     <x-slot name="header">
         <div class="flex justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight flex items-center">
-                {{ __('Painel de Admin') }}
+                {{ __('Painel de Administrador') }}
             </h2>
         </div>
     </x-slot>

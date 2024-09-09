@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Address;
+use App\Models\Admin;
 use App\Models\Manager;
 use App\Models\ManagerPendencie;
 use App\Models\User;
@@ -553,5 +554,24 @@ class AdminController extends Controller
         $request->session()->flash('msg', "Usuário criado com sucesso!");
 
         return redirect(route('admin-show-manager-list'));
+    }
+
+    public function showAdminList(Request $request)
+    {
+        $admin = Auth::guard('admin')->user();
+        $creator = $admin->admin;
+        $users = Admin::all();
+        $msg = $request->session()->get('msg');
+
+        return view('admin.show-admin-list', compact('users', 'msg', 'creator'));
+    }
+
+    public function showAdmin(User $user)
+    {
+        $address = $user->address()->first();
+        $accountUser = $user->account()->first();
+        $admin = $user->admin()->first();
+
+        return view('admin.show-user', compact('user', 'address', 'accountUser', 'admin'));
     }
 }

@@ -23,7 +23,7 @@
                     <i class="bi bi-people-fill" style="font-size:35px; color:white"></i>
                 </x-safebank-link-button>
 
-                <x-safebank-link-button route="manager-user-list" icon="cash-stack">
+                <x-safebank-link-button route="admin-show-admin-list" icon="cash-stack">
                     <p>Admins</p>
                     <i class="bi bi-people-fill" style="font-size:35px; color:white"></i>
                 </x-safebank-link-button>

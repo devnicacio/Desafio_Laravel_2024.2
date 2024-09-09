@@ -26,6 +26,8 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin-show-manager/{user}', [AdminController::class, 'showManager'])->name('admin-show-manager');
     Route::get('/admin-show-edit-manager/{user}', [AdminController::class, 'showEditManager'])->name('admin-show-edit-manager');
     Route::get('/admin-show-create-manager', [AdminController::class, 'showCreateManager'])->name('admin-show-create-manager');
+    Route::get('/admin-show-admin-list', [AdminController::class, 'showAdminList'])->name('admin-show-admin-list');
+
 
     Route::post('/admin-create-user', [AdminController::class, 'createUser'])->name('admin-create-user');
     Route::post('/admin-create-manager', [AdminController::class, 'createManager'])->name('admin-create-manager');

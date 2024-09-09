@@ -11,7 +11,7 @@
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-md rounded-lg flex justify-between items-center">
                 <div class="p-6 text-gray-900 text-lg">
-                    {{"Visalização de gerente"}}
+                    {{"Visalização de administrador"}}
                 </div>
             </div>
             <div class="py-6">
