@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -15,9 +16,7 @@ Route::middleware('web')->group(function () {
 });
 
 Route::middleware('admin')->group(function () {
-    Route::get('/dashboardAdmin', function () {
-        echo Auth::guard('admin')->user()->name;
-    })->name('dashboardAdmin');
+    Route::get('/admin-dashboard', [AdminController::class, 'dashboardAdmin'])->name('admin-dashboard');
 });
 
 Route::middleware('manager')->group(function () {
