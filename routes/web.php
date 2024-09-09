@@ -18,6 +18,8 @@ Route::middleware('web')->group(function () {
 Route::middleware('admin')->group(function () {
     Route::get('/admin-dashboard', [AdminController::class, 'dashboardAdmin'])->name('admin-dashboard');
     Route::get('/admin-show-edit-profile', [AdminController::class, 'showEditProfile'])->name('admin-show-edit-profile');
+    
+    Route::put('/admin-update-profile', [AdminController::class, 'profileUpdate'])->name('admin-update-profile');
 });
 
 Route::middleware('manager')->group(function () {

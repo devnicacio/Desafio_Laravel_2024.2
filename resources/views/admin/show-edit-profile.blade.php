@@ -6,7 +6,7 @@
     <x-slot name="header">
         <div class="flex justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight flex items-center">
-                {{ __('Painel de Gerente') }}
+                {{ __('Painel de Admin') }}
             </h2>
         </div>
     </x-slot>
@@ -25,11 +25,11 @@
                             {{$errors->first()}}
                         </x-safebank-alert-message>
                     @endif
-                    <form action="#" method="POST" enctype="multipart/form-data" class="w-full flex flex-col items-center">
+                    <form action="admin-update-profile" method="POST" enctype="multipart/form-data" class="w-full flex flex-col items-center">
                         @csrf
                         @method('PUT')
                         <label for="photo" class="relative rounded-full overflow-hidden cursor-pointer">
-                            <img id="photo-preview" src="{{"/" . $user->photo }}" alt="Foto de perfil do Usuário" class="object-cover w-32 h-32">
+                            <img id="photo-preview" src="{{"/" . $user->photo}}" alt="Foto de perfil do Usuário" class="object-cover w-32 h-32">
                             <input type="file" id="photo" name="photo" class="hidden" accept="image/*" onchange="previewPhoto(event)">
                         </label>
                         <p class="text-gray-500 mb-4">Clique para alterar a imagem</p>
