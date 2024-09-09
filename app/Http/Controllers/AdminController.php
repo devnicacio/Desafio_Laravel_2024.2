@@ -7,6 +7,7 @@ use App\Models\Address;
 use App\Models\Admin;
 use App\Models\Manager;
 use App\Models\ManagerPendencie;
+use App\Models\Transfer;
 use App\Models\User;
 use App\Models\UserPendencie;
 use Auth;
@@ -373,7 +374,7 @@ class AdminController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'required|email|max:255|unique:managers,email,' . $user->id,
             'country' => 'required|string|max:255',
             'postalCode' => 'required|regex:/^[0-9\-]+$/|max:255',
             'state' => 'required|string|max:255',
@@ -382,9 +383,9 @@ class AdminController extends Controller
             'street' => 'required|string|max:255',
             'number' => 'required|integer|min:1',
             'complement' => 'nullable|string|max:255',
-            'phoneNumber'=> 'required|string|max:255|unique:users,phoneNumber,' . $user->id,
+            'phoneNumber'=> 'required|string|max:255|unique:managers,phoneNumber,' . $user->id,
             'birthdate' => 'required|date|before:' . $validAge,
-            'cpf' => 'required|string|max:255|unique:users,cpf,' . $user->id,
+            'cpf' => 'required|string|max:255|unique:managers,cpf,' . $user->id,
             'photo' => 'nullable|image|max:255',
             'transferLimit' => 'required|max:255',
             'password' => 'nullable|string|max:255'
@@ -556,22 +557,239 @@ class AdminController extends Controller
         return redirect(route('admin-show-manager-list'));
     }
 
-    public function showAdminList(Request $request)
-    {
-        $admin = Auth::guard('admin')->user();
-        $creator = $admin->admin;
+    public function showAdminList(Request $request){
         $users = Admin::all();
         $msg = $request->session()->get('msg');
+        $admin = Auth::guard('admin')->user();
+        $creator = $admin->admin;
 
         return view('admin.show-admin-list', compact('users', 'msg', 'creator'));
     }
-
-    public function showAdmin(User $user)
-    {
+    public function showAdmin(Manager $user){
         $address = $user->address()->first();
-        $accountUser = $user->account()->first();
         $admin = $user->admin()->first();
 
-        return view('admin.show-user', compact('user', 'address', 'accountUser', 'admin'));
+        return view('admin.show-admin', compact('user', 'address', 'admin'));
+    }
+    public function showEditAdmin(Admin $user){
+        $address = $user->address()->first();
+
+        return view('admin.show-edit-admin', compact('address', 'user'));
+    }
+
+    public function showCreateAdmin(){
+        return view('admin.show-create-admin');
+    }
+    
+    public function createAdmin(Request $request)
+    {
+        $admin = Auth::guard('admin')->user();
+        $validAge = Carbon::now()->subYears(18)->format('d/m/Y');
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:admins,email',
+            'country' => 'required|string|max:255',
+            'postalCode' => 'required|regex:/^[0-9\-]+$/|max:255',
+            'state' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'neighborhood' => 'required|string|max:255',
+            'street' => 'required|string|max:255',
+            'number' => 'required|integer|min:1',
+            'complement' => 'nullable|string|max:255',
+            'phoneNumber'=> 'required|string|max:255|unique:admins,phoneNumber',
+            'birthdate' => 'required|date|before:' . $validAge,
+            'cpf' => 'required|string|max:255|unique:admins,cpf',
+            'photo' => 'nullable|image|max:255',
+            'password' => 'required|string|max:255',
+        ], [
+            'birthdate.before' => "O usuário precisa ter mais de 18 anos."
+        ]);
+
+        if($request->file('photo')){
+            $path = "storage/" . $request->file('photo')->store('images','public');
+        }
+        else{
+            $photo = new File(public_path('images/safebank-default-profile-photo.png'));
+            $photoName = $photo->hashName();
+            Storage::disk('public')->putFileAs('images', $photo, $photoName);
+            $path = "storage/images/" . $photoName;
+        }
+
+        $address = Address::create([
+            'country' => $request->country,
+            'postalCode' => $request->postalCode,
+            'state' => $request->state,
+            'city' => $request->city,
+            'neighborhood' => $request->neighborhood,
+            'street' => $request->street,
+            'number' => $request->number,
+            'complement' => $request->complement,
+        ]);
+
+        Admin::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'admin' => $admin->id,
+            'address' => $address->id,
+            'phoneNumber'=> $request->phoneNumber,
+            'birthdate' => $request->birthdate,
+            'cpf' => $request->cpf,
+            'photo' => $path,
+        ]);
+
+        $request->session()->flash('msg', "Administrador criado com sucesso!");
+
+        return redirect(route('admin-show-admin-list'));
+    }
+
+    public function updateAdmin(Request $request, Admin $user)
+    {
+        $validAge = Carbon::now()->subYears(18)->format('d/m/Y');
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:admins,admin,' . $user->id,
+            'country' => 'required|string|max:255',
+            'postalCode' => 'required|regex:/^[0-9\-]+$/|max:255',
+            'state' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'neighborhood' => 'required|string|max:255',
+            'street' => 'required|string|max:255',
+            'number' => 'required|integer|min:1',
+            'complement' => 'nullable|string|max:255',
+            'phoneNumber'=> 'required|string|max:255|unique:admins,phoneNumber,' . $user->id,
+            'birthdate' => 'required|date|before:' . $validAge,
+            'cpf' => 'required|string|max:255|unique:admins,cpf,' . $user->id,
+            'photo' => 'nullable|image|max:255',
+            'password' => 'nullable|string|max:255'
+        ],[
+            'birthdate.before' => "O usuário precisa ter mais de 18 anos.",
+        ]);
+
+        $address = $user->address()->first();
+
+        if($request->file('photo')){
+            $path = "storage/" . $request->file('photo')->store('images','public');
+        }
+        else
+            $path = $user->photo;
+
+        if($request->password)
+            $password = Hash::make($request->password);
+        else
+            $password = $user->password;
+
+        $address->update([
+            'country' => $request->country,
+            'postalCode' => $request->postalCode,
+            'state' => $request->state,
+            'city' => $request->city,
+            'neighborhood' => $request->neighborhood,
+            'street' => $request->street,
+            'number' => $request->number,
+            'complement' => $request->complement,
+        ]);
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phoneNumber'=> $request->phoneNumber,
+            'birthdate' => $request->birthdate,
+            'cpf' => $request->cpf,
+            'photo' => $path,
+            'password' => $password
+        ]);
+
+        $request->session()->flash('msg', "Dados do administrador $user->name atualizados com sucesso!");
+
+        return redirect(route('admin-show-admin-list'));
+    }
+
+    public function deleteAdmin(Admin $user, Request $request)
+    {
+        if($user->photo != 'images/safebank-default-profile-photo.png')
+            unlink(public_path($user->photo));
+    
+        $address = $user->address()->first();
+
+        $managers = $user->managers()->get();
+        $admins = $user->admins()->get();
+
+        if(!empty($managers)){
+            foreach($managers as $manager){
+                $manager->update([
+                    'admin' => betterAdminForManagersExclusive($user->id),
+                ]);
+            }
+        }
+
+        if(!empty($admins)){
+            foreach($admins as $admin){
+                $admin->update([
+                    'admin' => betterAdminForAdminsExclusive($user->id),
+                ]);
+            }
+        }
+
+        $user->delete();
+        $address->delete();
+
+        $request->session()->flash('msg', "Administrador excluído com sucesso!");
+
+        return redirect(route('admin-show-admin-list'));
+    }
+
+    public function showPendencies(Request $request)
+    {
+        $admin = Auth::guard('admin')->user();
+
+        $pendencies = $admin->pendencies()->get();
+        $transferPendencies = $pendencies->where('title', "Transferência");
+
+        $msg = $request->session()->get('msg');
+
+        return view('admin.show-pendencies', compact('transferPendencies', 'msg', 'admin'));
+    }
+
+    public function acceptPendencie(ManagerPendencie $transferPendencie, Request $request)
+    {
+        $senderAccount = Account::where('number', $transferPendencie->senderAccount)->first();
+        $recipientAccount = Account::where('number', $transferPendencie->recipientAccount)->first();
+        $value = $transferPendencie->value;
+
+        $date = Carbon::now()->format('Y-m-d H:i:s');
+    
+        $senderAccount->update([
+            'balance' => $senderAccount->balance -= $value
+        ]);
+
+        $recipientAccount->update([
+            'balance' => $recipientAccount->balance += $value
+        ]);
+
+        Transfer::create([
+            'title' => "Transferência",
+            'senderAccount' => $senderAccount->number,
+            'recipientAccount' => $recipientAccount->number,
+            'value' => $value,
+            'date' => $date
+        ]);
+
+        $transferPendencie->delete();
+
+        $request->session()->flash('msg', "Transferência aceita com sucesso!");
+
+        return redirect(route('admin-show-pendencies'));
+    }
+
+    public function denyPendencie(ManagerPendencie $transferPendencie, Request $request)
+    {
+        $transferPendencie->delete();
+
+        $request->session()->flash('msg', "Transferência recusada com sucesso!");
+
+        return redirect(route('admin-show-pendencies'));
     }
 }

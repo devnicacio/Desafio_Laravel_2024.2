@@ -28,7 +28,7 @@
                     <i class="bi bi-people-fill" style="font-size:35px; color:white"></i>
                 </x-safebank-link-button>
 
-                <x-safebank-link-button route="manager-show-pendencies">
+                <x-safebank-link-button route="admin-show-pendencies">
                     <p>Pendências</p>
                     <i class="bi bi-person-fill-exclamation" style="font-size:35px; color:white"></i>
                 </x-safebank-link-button>

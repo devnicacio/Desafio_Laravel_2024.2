@@ -73,10 +73,6 @@
                             <input type="text" id="cpf" readonly value="{{$user->cpf}}" class="rounded-md">
                         </div>
                         <div class="flex flex-col">
-                            <label for="transferLimit">Limite de transferência</label>
-                            <input type="text" id="transferLimit" readonly value="{{"R$ " . number_format($accountUser->transferLimit, 2, ',', '.')}}" class="rounded-md">
-                        </div>
-                        <div class="flex flex-col">
                             <label for="manager">Admin</label>
                             <input type="text" id="manager" readonly value="{{$admin->name}}" class="rounded-md">
                         </div>
