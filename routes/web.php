@@ -22,13 +22,24 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin-show-create-user', [AdminController::class, 'showCreateUser'])->name('admin-show-create-user');
     Route::get('/admin-show-user/{user}', [AdminController::class, 'showUser'])->name('admin-show-user');
     Route::get('/admin-show-edit-user/{user}', [AdminController::class, 'showEditUser'])->name('admin-show-edit-user');
+    Route::get('/admin-show-manager-list', [AdminController::class, 'showManagerList'])->name('admin-show-manager-list');
+    Route::get('/admin-show-manager/{user}', [AdminController::class, 'showManager'])->name('admin-show-manager');
+    Route::get('/admin-show-edit-manager/{user}', [AdminController::class, 'showEditManager'])->name('admin-show-edit-manager');
+    Route::get('/admin-show-create-manager', [AdminController::class, 'showCreateManager'])->name('admin-show-create-manager');
+
+    Route::post('/admin-create-user', [AdminController::class, 'createUser'])->name('admin-create-user');
+    Route::post('/admin-create-manager', [AdminController::class, 'createManager'])->name('admin-create-manager');
+
     
     Route::put('/admin-update-profile', [AdminController::class, 'profileUpdate'])->name('admin-update-profile');
     Route::put('/admin-update-user/{user}', [AdminController::class, 'updateUser'])->name('admin-update-user');
+    Route::put('/admin-update-manager/{user}', [AdminController::class, 'updateManager'])->name('admin-update-manager');
+    
 
     Route::delete('/admin-delete-profile', [AdminController::class, 'deleteProfile'])->name('admin-delete-profile');
     Route::delete('/admin-delete-profile', [AdminController::class, 'deleteProfile'])->name('admin-delete-profile');
     Route::delete('/admin-delete-user/{user}', [AdminController::class, 'deleteUser'])->name('admin-delete-user');
+    Route::delete('/admin-delete-manager/{user}', [AdminController::class, 'deleteManager'])->name('admin-delete-manager');
 });
 
 Route::middleware('manager')->group(function () {

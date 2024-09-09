@@ -11,7 +11,7 @@
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-md rounded-lg flex justify-between items-center">
                 <div class="p-6 text-gray-900 text-lg">
-                    {{"Criar usuário"}}
+                    {{"Criar gerente"}}
                 </div>
             </div>
             <div class="py-6">
@@ -21,7 +21,7 @@
                             {{$errors->first()}}
                         </x-safebank-alert-message>
                     @endif
-                    <form action="{{route('admin-create-user')}}" method="POST" enctype="multipart/form-data" class="w-full flex flex-col items-center">
+                    <form action="{{route('admin-create-manager')}}" method="POST" enctype="multipart/form-data" class="w-full flex flex-col items-center">
                         @csrf
                         <label for="photo" class="relative rounded-full overflow-hidden cursor-pointer">
                             <img id="photo-preview" src="/images/safebank-default-profile-photo.png" class="object-cover w-32 h-32">

@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
+use App\Models\Address;
+use App\Models\Manager;
 use App\Models\ManagerPendencie;
 use App\Models\User;
 use App\Models\UserPendencie;
 use Auth;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Http\File;
 use Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -165,7 +170,6 @@ class AdminController extends Controller
 
     public function updateUser(User $user, Request $request){
         $validAge = Carbon::now()->subYears(18)->format('d/m/Y');
-        
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -192,7 +196,6 @@ class AdminController extends Controller
         $account = $user->account()->first();
 
         if($request->file('photo')){
-            unlink(public_path($user->photo));
             $path = "storage/" . $request->file('photo')->store('images','public');
         }
         else
@@ -263,5 +266,292 @@ class AdminController extends Controller
         $request->session()->flash('msg', "Usuário excluído com sucesso!");
 
         return redirect(route('admin-show-user-list'));
+    }
+
+    public function createUser(Request $request)
+    {
+        $validAge = Carbon::now()->subYears(18)->format('d/m/Y');
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
+            'country' => 'required|string|max:255',
+            'postalCode' => 'required|regex:/^[0-9\-]+$/|max:255',
+            'state' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'neighborhood' => 'required|string|max:255',
+            'street' => 'required|string|max:255',
+            'number' => 'required|integer|min:1',
+            'complement' => 'nullable|string|max:255',
+            'phoneNumber'=> 'required|string|max:255|unique:users,phoneNumber',
+            'birthdate' => 'required|date|before:' . $validAge,
+            'cpf' => 'required|string|max:255|unique:users,cpf',
+            'photo' => 'nullable|image|max:255',
+            'password' => 'required|string|max:255',
+            'agency' => 'required|integer|digits:4',
+            'transferLimit' => 'required|regex:/^\d+([.,]\d{1,2})?$/'
+        ], [
+            'birthdate.before' => "O usuário precisa ter mais de 18 anos."
+        ]);
+
+        if($request->file('photo')){
+            $path = "storage/" . $request->file('photo')->store('images','public');
+        }
+        else{
+            $photo = new File(public_path('images/safebank-default-profile-photo.png'));
+            $photoName = $photo->hashName();
+            Storage::disk('public')->putFileAs('images', $photo, $photoName);
+            $path = "storage/images/" . $photoName;
+        }
+
+        $account = Account::create([
+            'agency' => $request->agency,
+            'number' => generateUnicNumber('accounts', 'number', '#######'),
+            'balance' => 0,
+            'transferLimit' => $request->transferLimit
+        ]);
+
+        $address = Address::create([
+            'country' => $request->country,
+            'postalCode' => $request->postalCode,
+            'state' => $request->state,
+            'city' => $request->city,
+            'neighborhood' => $request->neighborhood,
+            'street' => $request->street,
+            'number' => $request->number,
+            'complement' => $request->complement,
+        ]);
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'account' =>  $account->id,
+            'manager' => betterManagerForCommonUsers(),
+            'address' => $address->id,
+            'phoneNumber'=> $request->phoneNumber,
+            'birthdate' => $request->birthdate,
+            'cpf' => $request->cpf,
+            'photo' => $path,
+        ]);
+
+        $request->session()->flash('msg', "Usuário criado com sucesso!");
+
+        return redirect(route('admin-show-user-list'));
+    }
+
+    public function showManagerList(Request $request)
+    {
+        $admin = Auth::guard('admin')->user();
+        $users = $admin->managers()->get();
+        $msg = $request->session()->get('msg');
+
+        return view('admin.show-manager-list', compact('users', 'msg'));
+    }
+
+    public function showManager(Manager $user)
+    {
+        $address = $user->address()->first();
+        $accountUser = $user->account()->first();
+        $admin = $user->admin()->first();
+
+        return view('admin.show-manager', compact('user', 'address', 'accountUser', 'admin'));
+    }
+
+    public function showEditManager(Manager $user)
+    {
+        $address = $user->address()->first();
+        $accountUser = $user->account()->first();
+
+        return view('admin.show-edit-manager', compact('address', 'user', 'accountUser'));
+    }
+
+    public function updateManager(Manager $user, Request $request)
+    {
+        $validAge = Carbon::now()->subYears(18)->format('d/m/Y');
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'country' => 'required|string|max:255',
+            'postalCode' => 'required|regex:/^[0-9\-]+$/|max:255',
+            'state' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'neighborhood' => 'required|string|max:255',
+            'street' => 'required|string|max:255',
+            'number' => 'required|integer|min:1',
+            'complement' => 'nullable|string|max:255',
+            'phoneNumber'=> 'required|string|max:255|unique:users,phoneNumber,' . $user->id,
+            'birthdate' => 'required|date|before:' . $validAge,
+            'cpf' => 'required|string|max:255|unique:users,cpf,' . $user->id,
+            'photo' => 'nullable|image|max:255',
+            'transferLimit' => 'required|max:255',
+            'password' => 'nullable|string|max:255'
+        ],[
+            'birthdate.before' => "O usuário precisa ter mais de 18 anos.",
+        ]);
+
+        $address = $user->address()->first();
+        $account = $user->account()->first();
+
+        if($request->file('photo')){
+            $path = "storage/" . $request->file('photo')->store('images','public');
+        }
+        else
+            $path = $user->photo;
+
+        if($request->password)
+            $password = Hash::make($request->password);
+        else
+            $password = $user->password;
+
+        $address->update([
+            'country' => $request->country,
+            'postalCode' => $request->postalCode,
+            'state' => $request->state,
+            'city' => $request->city,
+            'neighborhood' => $request->neighborhood,
+            'street' => $request->street,
+            'number' => $request->number,
+            'complement' => $request->complement,
+        ]);
+
+        $account->update([
+            'transferLimit' => $request->transferLimit,
+        ]);
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phoneNumber'=> $request->phoneNumber,
+            'birthdate' => $request->birthdate,
+            'cpf' => $request->cpf,
+            'photo' => $path,
+            'password' => $password
+        ]);
+
+        $request->session()->flash('msg', "Dados do usuário $user->name atualizados com sucesso!");
+
+        return redirect(route('admin-show-manager-list'));
+    }
+
+    public function deleteManager(Manager $user, Request $request)
+    {
+        if($user->photo != 'images/safebank-default-profile-photo.png')
+            unlink(public_path($user->photo));
+    
+        $address = $user->address()->first();
+        $account = $user->account()->first();
+
+        $managerPendencies = ManagerPendencie::where('senderAccount', $account->number)->orWhere('recipientAccount', $account->number)->get();
+        $usersPendencies = UserPendencie::where('senderAccount', $account->number)->orWhere('recipientAccount', $account->number)->get();
+
+        if(!empty($managerPendencies)){
+            foreach($managerPendencies as $pendencie){
+                $pendencie->delete();
+            }
+        }
+
+        if(!empty($usersPendencies)){
+            foreach($usersPendencies as $pendencie){
+                $pendencie->delete();
+            }
+        }
+
+        $commonUsers = $user->users()->get();
+
+        if(!empty($commonUsers)){
+            foreach($commonUsers as $commonUser){
+                $commonUser->update([
+                    'manager' => betterManagerForCommonUsersExclusive($user->id),
+                ]);
+            }
+        }
+
+        $user->delete();
+        $address->delete();
+        $account->delete();
+
+        $request->session()->flash('msg', "Gerente excluído com sucesso!");
+
+        return redirect(route('admin-show-manager-list'));
+    }
+
+    public function showCreateManager()
+    {
+        return view('admin.show-create-manager');
+    }
+
+    public function createManager(Request $request)
+    {
+        $admin = Auth::guard('admin')->user();
+        $validAge = Carbon::now()->subYears(18)->format('d/m/Y');
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:managers,email',
+            'country' => 'required|string|max:255',
+            'postalCode' => 'required|regex:/^[0-9\-]+$/|max:255',
+            'state' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'neighborhood' => 'required|string|max:255',
+            'street' => 'required|string|max:255',
+            'number' => 'required|integer|min:1',
+            'complement' => 'nullable|string|max:255',
+            'phoneNumber'=> 'required|string|max:255|unique:managers,phoneNumber',
+            'birthdate' => 'required|date|before:' . $validAge,
+            'cpf' => 'required|string|max:255|unique:managers,cpf',
+            'photo' => 'nullable|image|max:255',
+            'password' => 'required|string|max:255',
+            'agency' => 'required|integer|digits:4',
+            'transferLimit' => 'required|regex:/^\d+([.,]\d{1,2})?$/'
+        ], [
+            'birthdate.before' => "O usuário precisa ter mais de 18 anos."
+        ]);
+
+        if($request->file('photo')){
+            $path = "storage/" . $request->file('photo')->store('images','public');
+        }
+        else{
+            $photo = new File(public_path('images/safebank-default-profile-photo.png'));
+            $photoName = $photo->hashName();
+            Storage::disk('public')->putFileAs('images', $photo, $photoName);
+            $path = "storage/images/" . $photoName;
+        }
+
+        $account = Account::create([
+            'agency' => $request->agency,
+            'number' => generateUnicNumber('accounts', 'number', '#######'),
+            'balance' => 0,
+            'transferLimit' => $request->transferLimit
+        ]);
+
+        $address = Address::create([
+            'country' => $request->country,
+            'postalCode' => $request->postalCode,
+            'state' => $request->state,
+            'city' => $request->city,
+            'neighborhood' => $request->neighborhood,
+            'street' => $request->street,
+            'number' => $request->number,
+            'complement' => $request->complement,
+        ]);
+
+        Manager::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'account' =>  $account->id,
+            'admin' => $admin->id,
+            'address' => $address->id,
+            'phoneNumber'=> $request->phoneNumber,
+            'birthdate' => $request->birthdate,
+            'cpf' => $request->cpf,
+            'photo' => $path,
+        ]);
+
+        $request->session()->flash('msg', "Usuário criado com sucesso!");
+
+        return redirect(route('admin-show-manager-list'));
     }
 }

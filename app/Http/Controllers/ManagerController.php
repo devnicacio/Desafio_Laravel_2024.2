@@ -201,7 +201,6 @@ class ManagerController extends Controller
         $account = $user->account()->first();
 
         if($request->file('photo')){
-            unlink(public_path($user->photo));
             $path = "storage/" . $request->file('photo')->store('images','public');
         }
         else
