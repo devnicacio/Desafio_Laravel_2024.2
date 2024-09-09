@@ -41,6 +41,6 @@ class User extends Authenticatable
 
     public function manager()
     {
-        return $this->belongsTo(Manager::class);
+        return $this->belongsTo(Manager::class, 'manager');
     }
 }

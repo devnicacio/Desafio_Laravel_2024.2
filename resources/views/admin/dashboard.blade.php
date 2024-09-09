@@ -13,7 +13,7 @@
             </x-safebank-confirm-message>
             @endif
             <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-6">
-                <x-safebank-link-button route="manager-user-list" icon="cash-stack">
+                <x-safebank-link-button route="admin-show-user-list" icon="cash-stack">
                     <p>Usuários</p>
                     <i class="bi bi-people-fill" style="font-size:35px; color:white"></i>
                 </x-safebank-link-button>

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ManagerPendencie;
+use App\Models\User;
 use Auth;
 use Carbon\Carbon;
+use DB;
 use Hash;
 use Illuminate\Http\Request;
 
@@ -82,5 +85,72 @@ class AdminController extends Controller
         $request->session()->flash('msg', 'Dados atualizados com sucesso!');
 
         return redirect(route('admin-dashboard'));
+    }
+
+    public function deleteProfile()
+    {
+        $admin = Auth::guard('admin')->user();
+
+        if ($admin->id == 1) {
+            return redirect()->back()->withErrors(['' => 'Você não pode excluir o primeiro administrador']);
+        }
+    
+        $address = $admin->address()->first();
+
+        $managerPendencies = $admin->pendencies()->get();
+        $managers = $admin->managers()->get();
+        $admins = $admin->admins()->get();
+
+        if($managerPendencies->count() != 0){
+            foreach($managerPendencies as $pendencie){
+                $pendencie->delete();
+            }
+        }
+
+        if($managers->count() != 0){
+            foreach($managers as $manager){
+                $manager->update([
+                    'admin' => betterAdminForManagersExclusive($admin->id)
+                ]);
+            }
+        }
+
+        if($admins->count() != 0){
+            foreach($admins as $admin){
+                $admin->update([
+                    'admin' => betterAdminForAdminsExclusive($admin->id)
+                ]);
+            }
+        }
+
+        if($admin->photo != 'images/safebank-default-profile-photo.png')
+            unlink(public_path($admin->photo));
+
+        $admin->delete();
+        $address->delete();
+
+        return redirect('/');
+    }
+
+    public function showUserList(Request $request)
+    {
+        $users = User::all();
+        $msg = $request->session()->get('msg');
+
+        return view('admin.show-user-list', compact('users', 'msg'));
+    }
+
+    public function showCreateUser()
+    {
+        return view('admin.show-create-user');
+    }
+
+    public function showUser(User $user)
+    {
+        $address = $user->address()->first();
+        $accountUser = $user->account()->first();
+        $manager = $user->manager()->first();
+
+        return view('admin.show-user', compact('user', 'address', 'accountUser', 'manager'));
     }
 }

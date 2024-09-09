@@ -18,8 +18,13 @@ Route::middleware('web')->group(function () {
 Route::middleware('admin')->group(function () {
     Route::get('/admin-dashboard', [AdminController::class, 'dashboardAdmin'])->name('admin-dashboard');
     Route::get('/admin-show-edit-profile', [AdminController::class, 'showEditProfile'])->name('admin-show-edit-profile');
+    Route::get('/admin-show-user-list', [AdminController::class, 'showUserList'])->name('admin-show-user-list');
+    Route::get('/admin-show-create-user', [AdminController::class, 'showCreateUser'])->name('admin-show-create-user');
+    Route::get('/admin-show-user/{user}', [AdminController::class, 'showUser'])->name('admin-show-user');
     
     Route::put('/admin-update-profile', [AdminController::class, 'profileUpdate'])->name('admin-update-profile');
+
+    Route::delete('/admin-delete-profile', [AdminController::class, 'deleteProfile'])->name('admin-delete-profile');
 });
 
 Route::middleware('manager')->group(function () {

@@ -76,3 +76,57 @@ if(!function_exists('betterManagerForCommonUsersExclusive')){
         return $managerChosen->id;
     }
 }
+
+if(!function_exists('betterAdminForAdminsExclusive')){
+    function betterAdminForAdminsExclusive($adminId){
+        $admins = Admin::where('id', '!=', $adminId);
+        $adminChosen = $admins->first();
+        $minor = $adminChosen->admins()->count();
+        
+        foreach($admins as $admin){
+            $minorTest = $admin->admins()->count();
+
+            if($minorTest < $minor){
+                $minor = $minorTest;
+                $adminChosen = $admin;
+            }
+        }
+        return $adminChosen->id;
+    }
+}
+
+if(!function_exists('betterAdminForManagersExclusive')){
+    function betterAdminForManagersExclusive($adminId) {
+        $admins = Admin::where('id', '!=', $adminId)->get();
+        $adminChosen = $admins->first();
+        $minor = $adminChosen->managers()->count();
+        
+        foreach($admins as $admin){
+            $minorTest = $admin->managers()->count();
+
+            if($minorTest < $minor){
+                $minor = $minorTest;
+                $adminChosen = $admin;
+            }
+        }
+        return $adminChosen->id;
+    }
+}
+
+if(!function_exists('betterAdminForAdminsExclusive')){
+    function betterAdminForAdminsExclusive($adminId){
+        $admins = Admin::where('id', '!=', $adminId)->get();
+        $adminChosen = $admins->first();
+        $minor = $adminChosen->admins()->count();
+        
+        foreach($admins as $admin){
+            $minorTest = $admin->admins()->count();
+
+            if(($minorTest < $minor) && $admin->id != $adminId){
+                $minor = $minorTest;
+                $adminChosen = $admin;
+            }
+        }
+        return $adminChosen->id;
+    }
+}

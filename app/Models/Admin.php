@@ -46,4 +46,9 @@ class Admin extends Authenticatable
     {
         return $this->belongsTo(Address::class, 'address');
     }
+
+    public function pendencies()
+    {
+        return $this->hasMany(ManagerPendencie::class, 'admin');
+    }
 }
