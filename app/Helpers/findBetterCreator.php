@@ -122,7 +122,7 @@ if(!function_exists('betterAdminForAdminsExclusive')){
         foreach($admins as $admin){
             $minorTest = $admin->admins()->count();
 
-            if(($minorTest < $minor) && $admin->id != $adminId){
+            if($minorTest < $minor){
                 $minor = $minorTest;
                 $adminChosen = $admin;
             }

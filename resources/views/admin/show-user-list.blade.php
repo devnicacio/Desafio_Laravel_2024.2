@@ -40,7 +40,7 @@
                             <i class="bi bi-eye-fill" style="font-size:17px; color:white"></i>
                         </x-safebank-id-link-button>
 
-                        <x-safebank-id-link-button route="manager-show-edit" id="{{$user->id}}">
+                        <x-safebank-id-link-button route="admin-show-edit-user" id="{{$user->id}}">
                             <i class="bi bi-pencil-square" style="font-size:17px; color:white"></i>
                         </x-safebank-id-link-button>
 
@@ -74,7 +74,7 @@
     <script>
         function openDeleteModal(userId) {
             const form = document.getElementById('deleteForm');
-            form.action = `/manager-delete-user/${userId}`;
+            form.action = `/admin-delete-user/${userId}`;
             document.getElementById('deleteUser').classList.remove('hidden');
             document.getElementById('deleteUser').classList.add('flex');
         }
