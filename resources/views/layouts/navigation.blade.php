@@ -14,6 +14,12 @@
                     <p class="ml-2 flex items-center text-lg text-[#0571d3]">Safebank</p>
                 </a>
             @endif
+            @if(Auth::guard('web')->check())
+                <a href="{{route('user-dashboard')}}" class="shrink-0 flex items-center">
+                    <img src="{{ asset('images/safebank-logo.png') }}" alt="Logo Safebank" class="block h-11 w-auto fill-current text-gray-800">
+                    <p class="ml-2 flex items-center text-lg text-[#0571d3]">Safebank</p>
+                </a>
+            @endif
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
@@ -50,6 +56,11 @@
                                 {{ __('Meu perfil') }}
                             </x-dropdown-link>
                         @endif
+                        @if(Auth::guard('web')->check())
+                            <x-dropdown-link :href="route('user-show-edit-profile')">
+                                {{ __('Meu perfil') }}
+                            </x-dropdown-link>
+                        @endif
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -78,11 +89,27 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-        </div>
+        @if (Auth::guard('web')->check())
+            <div class="pt-2 pb-3 space-y-1">
+                <x-responsive-nav-link :href="route('user-dashboard')" :active="request()->routeIs('dashboard')">
+                    {{ __('Painel de Usuário') }}
+                </x-responsive-nav-link>
+            </div>
+        @endif
+        @if (Auth::guard('manager')->check())
+            <div class="pt-2 pb-3 space-y-1">
+                <x-responsive-nav-link :href="route('manager-dashboard')" :active="request()->routeIs('dashboard')">
+                    {{ __('Painel de Gerente') }}
+                </x-responsive-nav-link>
+            </div>
+        @endif
+        @if (Auth::guard('admin')->check())
+            <div class="pt-2 pb-3 space-y-1">
+                <x-responsive-nav-link :href="route('admin-dashboard')" :active="request()->routeIs('dashboard')">
+                    {{ __('Painel de Usuário') }}
+                </x-responsive-nav-link>
+            </div>
+        @endif
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
@@ -120,7 +147,11 @@
                         {{ __('Meu perfil') }}
                     </x-dropdown-link>
                 @endif
-
+                @if(Auth::guard('web')->check())
+                    <x-dropdown-link :href="route('user-show-edit-profile')">
+                        {{ __('Meu perfil') }}
+                    </x-dropdown-link>
+                @endif
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

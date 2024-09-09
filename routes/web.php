@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -10,9 +11,9 @@ Route::get('/', function () {
 });
 
 Route::middleware('web')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [UserController::class, 'index'])->name('user-dashboard');
+    Route::get('/user-show-edit-profile', [UserController::class, 'ShowEditProfile'])->name('user-show-edit-profile');
+    Route::get('/user-show-withdraw', [UserController::class, 'ShowEditProfile'])->name('user-show-edit-profile');
 });
 
 Route::middleware('admin')->group(function () {
