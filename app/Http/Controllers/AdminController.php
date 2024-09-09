@@ -9,10 +9,13 @@ class AdminController extends Controller
 {
     public function dashboardAdmin(Request $request)
     {
-        $admin = Auth::guard('admin')->user();
-
         $msg = $request->session()->get('msg');
 
         return view('admin.dashboard', compact('msg'));
+    }
+
+    public function showEditProfile()
+    {
+        return view('admin.show-edit-profile');
     }
 }

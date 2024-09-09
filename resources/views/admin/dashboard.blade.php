@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-safebank-admin-nav :authguard="Auth::guard('manager')->user()" >
+        <x-safebank-admin-nav :authguard="Auth::guard('admin')->user()" >
             Painel de Admin
         </x-safebank-admin-nav>
     </x-slot>
@@ -20,6 +20,11 @@
 
                 <x-safebank-link-button route="manager-user-list" icon="cash-stack">
                     <p>Gerentes</p>
+                    <i class="bi bi-people-fill" style="font-size:35px; color:white"></i>
+                </x-safebank-link-button>
+
+                <x-safebank-link-button route="manager-user-list" icon="cash-stack">
+                    <p>Admins</p>
                     <i class="bi bi-people-fill" style="font-size:35px; color:white"></i>
                 </x-safebank-link-button>
 

@@ -26,8 +26,12 @@ class Admin extends Authenticatable
 
     public $timestamps = false;
 
+    protected $casts = [
+        'birthdate' => 'date'
+    ];
+
     public function admin(){
-        return $this->belongsTo(Admin::class);
+        return $this->belongsTo(Admin::class, 'admin');
     }
 
     public function admins(){
@@ -36,5 +40,10 @@ class Admin extends Authenticatable
 
     public function managers(){
         return $this->hasMany(Manager::class, 'admin');
+    }
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class, 'address');
     }
 }

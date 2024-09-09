@@ -2,10 +2,18 @@
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-            <a href="{{route('manager-dashboard')}}" class="shrink-0 flex items-center">
+            @if(Auth::guard('manager')->check())
+                <a href="{{route('manager-dashboard')}}" class="shrink-0 flex items-center">
                     <img src="{{ asset('images/safebank-logo.png') }}" alt="Logo Safebank" class="block h-11 w-auto fill-current text-gray-800">
                     <p class="ml-2 flex items-center text-lg text-[#0571d3]">Safebank</p>
-            </a>
+                </a>
+            @endif
+            @if(Auth::guard('admin')->check())
+                <a href="{{route('admin-dashboard')}}" class="shrink-0 flex items-center">
+                    <img src="{{ asset('images/safebank-logo.png') }}" alt="Logo Safebank" class="block h-11 w-auto fill-current text-gray-800">
+                    <p class="ml-2 flex items-center text-lg text-[#0571d3]">Safebank</p>
+                </a>
+            @endif
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
@@ -32,10 +40,16 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('manager-show-edit-manager')">
-                            {{ __('Meu perfil') }}
-                        </x-dropdown-link>
-
+                        @if(Auth::guard('manager')->check())
+                            <x-dropdown-link :href="route('manager-show-edit-manager')">
+                                {{ __('Meu perfil') }}
+                            </x-dropdown-link>
+                        @endif
+                        @if(Auth::guard('admin')->check())
+                            <x-dropdown-link :href="route('admin-show-edit-profile')">
+                                {{ __('Meu perfil') }}
+                            </x-dropdown-link>
+                        @endif
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -96,9 +110,16 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('manager-show-edit-manager')">
-                    {{ __('Meu perfil') }}
-                </x-responsive-nav-link>
+                @if(Auth::guard('manager')->check())
+                    <x-dropdown-link :href="route('manager-show-edit-manager')">
+                        {{ __('Meu perfil') }}
+                    </x-dropdown-link>
+                @endif
+                @if(Auth::guard('admin')->check())
+                    <x-dropdown-link :href="route('admin-show-edit-profile')">
+                        {{ __('Meu perfil') }}
+                    </x-dropdown-link>
+                @endif
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
