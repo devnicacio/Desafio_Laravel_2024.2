@@ -41,7 +41,7 @@
                                 <input type="number" id="number" name="number" class="rounded-md">
                             </div>
                             <div class="flex flex-col">
-                                <label for="value">Valor do depósito</label>
+                                <label for="value">Valor da transferência</label>
                                 <input type="number" id="value" name="value" class="rounded-md" step="0.01">
                             </div>
                             <div class="flex flex-col">

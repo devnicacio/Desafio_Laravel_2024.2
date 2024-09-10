@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <x-safebank-admin-nav :authguard="Auth::guard('admin')->user()" >
-            Painel de Admin
+            Painel de Administrador
         </x-safebank-admin-nav>
     </x-slot>
 

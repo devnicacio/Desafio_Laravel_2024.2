@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight flex items-center">
-                {{ __('Painel de Clientes') }}
+                {{ __('Painel de Cliente') }}
             </h2>
             <div>
                 <p class="text-sm">{{"Agência: $account->agency"}}</p>
@@ -15,7 +15,7 @@
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-md rounded-lg flex justify-between items-center">
                 <div class="p-6 text-gray-900 text-lg">
-                    {{"Edição de usuário"}}
+                    {{"Editar perfil"}}
                 </div>
             </div>
             <div class="py-6">
