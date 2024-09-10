@@ -829,4 +829,9 @@ class AdminController extends Controller
 
         return redirect(route('admin-show-loans'));
     }
+
+    public function showEmail()
+    {
+        return view('admin.show-email');
+    }
 }

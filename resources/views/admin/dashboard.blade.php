@@ -37,6 +37,11 @@
                     <p>Empréstimos</p>
                     <i class="bi bi-list-ul" style="font-size:35px; color:white"></i>
                 </x-safebank-link-button>
+
+                <x-safebank-link-button route="admin-show-email">
+                    <p>Enviar e-mail</p>
+                    <i class="bi bi-envelope" style="font-size:35px; color:white"></i>
+                </x-safebank-link-button>
             </div>
         </div>
         

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -33,11 +34,14 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin-show-create-admin', [AdminController::class, 'showCreateAdmin'])->name('admin-show-create-admin');
     Route::get('/admin-show-pendencies', [AdminController::class, 'showPendencies'])->name('admin-show-pendencies');
     Route::get('/admin-show-loans', [AdminController::class, 'showLoans'])->name('admin-show-loans');
+    Route::get('/admin-show-email', [AdminController::class, 'showEmail'])->name('admin-show-email');
 
     Route::post('/admin-create-user', [AdminController::class, 'createUser'])->name('admin-create-user');
     Route::post('/admin-create-manager', [AdminController::class, 'createManager'])->name('admin-create-manager');
     Route::post('/admin-create-admin', [AdminController::class, 'createAdmin'])->name('admin-create-admin');
     Route::post('/admin-accept-loan/{loan}', [AdminController::class, 'acceptLoan'])->name('admin-accept-loan');
+    Route::post('/admin-send-email', [ContactController::class, 'store'])->name('admin-send-email');
+
     
     Route::put('/admin-update-profile', [AdminController::class, 'profileUpdate'])->name('admin-update-profile');
     Route::put('/admin-update-user/{user}', [AdminController::class, 'updateUser'])->name('admin-update-user');
