@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight flex items-center">
-                {{ __('Painel de Gerente') }}
+                {{ __('Painel de Cliente') }}
             </h2>
             <div>
                 <p class="text-sm">{{"Agência: $account->agency"}}</p>
@@ -78,11 +78,16 @@
             @if($transfers->count() != 0)
                 <div class="flex justify-center">
                     <div class="bg-white overflow-hidden rounded-lg flex flex-col gap-4 mt-4 shadow-sm mb-4 w-[600px] p-6">
+                        @if($errors->any())
+                            <x-safebank-alert-message>
+                                {{$errors->first()}}
+                            </x-safebank-alert-message>
+                        @endif
                         <p class="text-lg">Imprimir extrato</p>
-                        <form action="manager-generatepdf" class="w-full flex flex-col" method="POST">
+                        <form action="user-generatepdf" class="w-full flex flex-col" method="POST">
                             @csrf
                             <label for="month" class="mb-2">Digite o número de meses desejados</label>
-                            <input type="text" name="month" id="month" class="rounded-md mb-4">
+                            <input type="number" name="month" id="month" class="rounded-md mb-4">
                             <div class="flex flex-col items-center">
                                 <x-safebank-form-button>
                                     {{"Imprimir"}}

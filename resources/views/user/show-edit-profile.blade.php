@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight flex items-center">
-                {{ __('Painel de Gerente') }}
+                {{ __('Painel de Clientes') }}
             </h2>
             <div>
                 <p class="text-sm">{{"Agência: $account->agency"}}</p>
@@ -25,7 +25,7 @@
                             {{$errors->first()}}
                         </x-safebank-alert-message>
                     @endif
-                    <form action="{{route('manager-update-user', $user->id)}}" method="POST" enctype="multipart/form-data" class="w-full flex flex-col items-center">
+                    <form action="{{route('user-update-user')}}" method="POST" enctype="multipart/form-data" class="w-full flex flex-col items-center">
                         @csrf
                         @method('PUT')
                         <label for="photo" class="relative rounded-full overflow-hidden cursor-pointer">
@@ -88,7 +88,7 @@
                             </div>
                             <div class="flex flex-col">
                                 <label for="transferLimit">Limite de Transferência</label>
-                                <input type="number" id="transferLimit" name="transferLimit" value="{{$accountUser->transferLimit}}" class="rounded-md" step="0.01">
+                                <input type="number" id="transferLimit" name="transferLimit" value="{{$account->transferLimit}}" class="rounded-md" step="0.01">
                             </div>
                             <div class="flex flex-col mb-6">
                                 <label for="password">Senha</label>
@@ -98,6 +98,13 @@
                         <x-safebank-form-button>
                             {{"Salvar"}}
                         </x-safebank-form-button>
+                    </form>
+                    <form action="{{route('user-delete-user')}}" method="POST" id="deleteForm" class="mt-4">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-red-500 hover:bg-orange-400 transition-colors text-white text-[17px] overflow-hidden shadow-sm rounded-lg flex justify-between items-center px-4 py-2">
+                            Excluir conta
+                        </button>
                     </form>
                 </div>
             </div>

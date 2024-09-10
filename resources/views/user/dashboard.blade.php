@@ -17,7 +17,7 @@
                     {{"Saldo: R$ " . number_format($account->balance, 2, ',', '.')}}
                 </div>
                 <div class="px-6">
-                    <x-safebank-link-button route="manager-show-statement">
+                    <x-safebank-link-button route="user-show-statement">
                         {{"Ver extrato"}}
                     </x-safebank-link-button>
                 </div>

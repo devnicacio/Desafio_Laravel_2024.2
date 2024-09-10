@@ -1,5 +1,5 @@
 @php
-    $user = Auth::guard('manager')->user()
+    $user = Auth::guard('web')->user()
 @endphp
 <!DOCTYPE html>
 <html lang="en">

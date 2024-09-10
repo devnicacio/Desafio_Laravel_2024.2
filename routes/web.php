@@ -18,12 +18,18 @@ Route::middleware('web')->group(function () {
     Route::get('/user-show-deposit', [UserController::class, 'showDeposit'])->name('user-show-deposit');
     Route::get('/user-show-transfer', [UserController::class, 'showTransfer'])->name('user-show-transfer');
     Route::get('/user-show-loan', [UserController::class, 'showLoan'])->name('user-show-loan');
+    Route::get('/user-show-statement', [UserController::class, 'showStatement'])->name('user-show-statement');
 
     Route::post('/user-store-withdraw', [UserController::class, 'storeWithdraw'])->name('user-store-withdraw');
     Route::post('/user-store-deposit', [UserController::class, 'storeDeposit'])->name('user-store-deposit');
     Route::post('/user-store-transfer', [UserController::class, 'storeTransfer'])->name('user-store-transfer');
     Route::post('/user-store-loan', [UserController::class, 'storeLoan'])->name('user-store-loan');
     Route::post('/user-pay-loan', [UserController::class, 'payLoan'])->name('user-pay-loan');
+    Route::post('/user-generatepdf', [UserController::class, 'generatePdf'])->name('user-generatepdf');
+
+    Route::put('/user-update-user', [UserController::class, 'updateUser'])->name('user-update-user');
+
+    Route::delete('/user-delete-user', [UserController::class, 'deleteUser'])->name('user-delete-user');
 
 });
 
@@ -92,7 +98,7 @@ Route::middleware('manager')->group(function () {
     Route::post('/manager-store-loan', [ManagerController::class, 'storeLoan'])->name('manager-store-loan');
     Route::post('/manager-pay-loan', [ManagerController::class, 'payLoan'])->name('manager-pay-loan');
     Route::post('/manager-accept-loan/{loan}', [ManagerController::class, 'acceptLoan'])->name('manager-accept-loan');
-    Route::post('/generatepdf', [ManagerController::class, 'generatePdf'])->name('generatepdf');
+    Route::post('/manager-generatepdf', [ManagerController::class, 'generatePdf'])->name('manager-generatepdf');
 
     Route::put('/manager-update-manager', [ManagerController::class, 'updateManager'])->name('manager-update-manager');
     Route::put('/manager-update-user/{user}', [ManagerController::class, 'updateUser'])->name('manager-update-user');
