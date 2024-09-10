@@ -541,8 +541,8 @@ class ManagerController extends Controller
         $account = $manager->account()->first();
 
         $approvedLoan = ManagerPendencie::where('title', "Empréstimo")->where('recipientAccount', $account->number)->where('status', 1)->first();
-
-        return view('manager.show-loan', compact('account', 'approvedLoan'));
+        dd($approvedLoan);
+        return view('user.show-loan', compact('account', 'approvedLoan'));
     }
 
     public function storeLoan(Request $request)

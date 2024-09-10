@@ -14,7 +14,17 @@ Route::get('/', function () {
 Route::middleware('web')->group(function () {
     Route::get('/dashboard', [UserController::class, 'index'])->name('user-dashboard');
     Route::get('/user-show-edit-profile', [UserController::class, 'ShowEditProfile'])->name('user-show-edit-profile');
-    Route::get('/user-show-withdraw', [UserController::class, 'ShowEditProfile'])->name('user-show-edit-profile');
+    Route::get('/user-show-withdraw', [UserController::class, 'showWithdraw'])->name('user-show-withdraw');
+    Route::get('/user-show-deposit', [UserController::class, 'showDeposit'])->name('user-show-deposit');
+    Route::get('/user-show-transfer', [UserController::class, 'showTransfer'])->name('user-show-transfer');
+    Route::get('/user-show-loan', [UserController::class, 'showLoan'])->name('user-show-loan');
+
+    Route::post('/user-store-withdraw', [UserController::class, 'storeWithdraw'])->name('user-store-withdraw');
+    Route::post('/user-store-deposit', [UserController::class, 'storeDeposit'])->name('user-store-deposit');
+    Route::post('/user-store-transfer', [UserController::class, 'storeTransfer'])->name('user-store-transfer');
+    Route::post('/user-store-loan', [UserController::class, 'storeLoan'])->name('user-store-loan');
+    Route::post('/user-pay-loan', [UserController::class, 'payLoan'])->name('user-pay-loan');
+
 });
 
 Route::middleware('admin')->group(function () {

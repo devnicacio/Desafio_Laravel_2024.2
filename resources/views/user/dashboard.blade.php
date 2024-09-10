@@ -23,22 +23,22 @@
                 </div>
             </div>
             <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-6">
-                <x-safebank-link-button route="manager-show-withdraw">
+                <x-safebank-link-button route="user-show-withdraw">
                     <p>Saque</p>
                     <i class="bi bi-cash-stack" style="font-size:35px; color:white"></i>
                 </x-safebank-link-button>
 
-                <x-safebank-link-button route="manager-show-deposit">
+                <x-safebank-link-button route="user-show-deposit">
                     <p>Depósito</p>
                     <i class="bi bi-piggy-bank-fill" style="font-size:35px; color:white"></i>
                 </x-safebank-link-button>
 
-                <x-safebank-link-button route="manager-show-transfer">
+                <x-safebank-link-button route="user-show-transfer">
                     <p>Transferência</p>
                     <i class="bi bi-arrow-left-right" style="font-size:35px; color:white"></i>
                 </x-safebank-link-button>
 
-                <x-safebank-link-button route="manager-show-loan">
+                <x-safebank-link-button route="user-show-loan">
                     <p>Pedir empréstimo</p>
                     <i class="bi bi-cash-coin" style="font-size:35px; color:white"></i>
                 </x-safebank-link-button>
