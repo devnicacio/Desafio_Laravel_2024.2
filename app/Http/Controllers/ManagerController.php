@@ -14,6 +14,7 @@ use Hash;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ManagerController extends Controller
 {
@@ -714,9 +715,25 @@ class ManagerController extends Controller
     {
         $manager = Auth::guard('manager')->user();
         $account = $manager->account()->first();
-        $transfers = Transfer::where('senderAccount', $account->number)->orWhere('recipientAccount', $account->number)->get();
+        $transfers = Transfer::where('senderAccount', $account->number)->orWhere('recipientAccount', $account->number)->take(10)->get();
         $msg = $request->session()->get('msg');
 
         return view('manager.show-statements', compact('account', 'transfers', 'msg'));
+    }
+
+    public function generatePdf(Request $request)
+    {
+        $manager = Auth::guard('manager')->user();
+        $account = $manager->account()->first();
+        $allTransfers = Transfer::where('senderAccount', $account->number)->orWhere('recipientAccount', $account->number)->get();
+        
+        $endDate = Carbon::now('America/Sao_Paulo');
+        $startDate = Carbon::now('America/Sao_Paulo')->subMonths($request->month);
+
+        $transfers = $allTransfers->whereBetween('date', [$startDate, $endDate]);
+
+        $pdf = Pdf::loadview('manager.pdf', compact('endDate', 'startDate','transfers'));
+
+        return $pdf->stream();
     }
 }

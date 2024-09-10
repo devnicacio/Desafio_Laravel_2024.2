@@ -78,6 +78,7 @@ Route::middleware('manager')->group(function () {
     Route::post('/manager-store-loan', [ManagerController::class, 'storeLoan'])->name('manager-store-loan');
     Route::post('/manager-pay-loan', [ManagerController::class, 'payLoan'])->name('manager-pay-loan');
     Route::post('/manager-accept-loan/{loan}', [ManagerController::class, 'acceptLoan'])->name('manager-accept-loan');
+    Route::post('/generatepdf', [ManagerController::class, 'generatePdf'])->name('generatepdf');
 
     Route::put('/manager-update-manager', [ManagerController::class, 'updateManager'])->name('manager-update-manager');
     Route::put('/manager-update-user/{user}', [ManagerController::class, 'updateUser'])->name('manager-update-user');

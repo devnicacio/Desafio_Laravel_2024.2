@@ -109,27 +109,26 @@ class AdminController extends Controller
         $managers = $admin->managers()->get();
         $admins = $admin->admins()->get();
 
-        if($managerPendencies->count() != 0){
-            foreach($managerPendencies as $pendencie){
-                $pendencie->delete();
-            }
-        }
-
-        if($managers->count() != 0){
             foreach($managers as $manager){
                 $manager->update([
                     'admin' => betterAdminForManagersExclusive($admin->id)
                 ]);
+                $manager->refresh();
             }
-        }
+        
 
-        if($admins->count() != 0){
-            foreach($admins as $admin){
-                $admin->update([
+  
+            foreach($managerPendencies as $pendencie){
+                $pendencie->delete();
+            }
+
+
+            foreach($admins as $relatedAdmin){
+                $relatedAdmin->update([
                     'admin' => betterAdminForAdminsExclusive($admin->id)
                 ]);
+                $relatedAdmin->refresh();
             }
-        }
 
         if($admin->photo != 'images/safebank-default-profile-photo.png')
             unlink(public_path($admin->photo));
